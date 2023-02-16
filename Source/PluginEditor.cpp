@@ -15,10 +15,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    //addAndMakeVisible(keyboardComponent);
-    //keyboardComponent.setScrollButtonsVisible(false);
-    //keyboardComponent.setScrollButtonWidth(0);
-    //keyboardComponent.setBlackNoteWidthProportion(1.0f);
+    
     setSize (400, 300);
     setResizable(true, true);
     for (int i = 0; i < 12; i++)
@@ -29,17 +26,6 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
             = juce::Rectangle<float> ((j * getWidth()/5), ((11-i) * getHeight()/12), getWidth()/5, getHeight()/12);
         }
     }
-    /*auto keyboardStartPoint = keyboardComponent.getWidth();
-    auto componentWidth = getWidth()-keyboardStartPoint;
-    for (int i = 8; i < keyboardComponent.getHeight(); )
-    {
-        for (int j= 0; j < 4; j++){
-            auto rect = juce::Rectangle<float>((keyboardStartPoint) + (j *(componentWidth)/4), i,  (componentWidth)/4, keyboardComponent.getKeyWidth());
-            std::map<juce::Rectangle<float>, juce::Colour>::iterator it = clicked.begin();
-            clicked.insert(it, std::pair<juce::Rectangle<float>, juce::Colour>(rect,juce::Colours::black) );
-        }
-        i += keyboardComponent.getKeyWidth();
-    }*/
 }
 
 VocalSynthAudioProcessorEditor::~VocalSynthAudioProcessorEditor()
@@ -75,7 +61,6 @@ void VocalSynthAudioProcessorEditor::paint (juce::Graphics& g)
 }
 void VocalSynthAudioProcessorEditor::mouseDown (const juce::MouseEvent& e)
 {
-    //mouseDrag (e);
     lastMousePosition = e.position;
     for (int i = 0; i < 12; i++)
     {
@@ -106,7 +91,6 @@ void VocalSynthAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    //keyboardComponent   .setBounds (8, 8, 64, getHeight()-16);
     for (int i = 0; i < 12; i++)
     {
         for (int j = 1; j < 5; j++){
