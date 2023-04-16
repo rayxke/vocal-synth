@@ -18,14 +18,18 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     
     setSize (400, 300);
     setResizable(true, true);
-    for (int i = 0; i < 12; i++)
-    {
-        for (int j = 1; j < 5; j++){
-            gridColors[(i)+((j-1)*12)] = juce::Colours::black;
-            notes[(i)+((j-1)*12)]
-            = juce::Rectangle<float> ((j * getWidth()/5), ((11-i) * getHeight()/12), getWidth()/5, getHeight()/12);
-        }
-    }
+    addAndMakeVisible(piano);
+    viewport.setViewedComponent(&piano);
+    addAndMakeVisible(viewport);
+    volumeSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
+    addAndMakeVisible(volumeSlider);
+    addAndMakeVisible(playButton);
+    addAndMakeVisible(stopButton);
+    keyboardComponent.setAvailableRange(60, 71);
+    addAndMakeVisible(keyboardComponent);
+    //topMenu.addAndMakeVisible(&volumeSlider);
+    //addAndMakeVisible(topMenu);
+    
 }
 
 VocalSynthAudioProcessorEditor::~VocalSynthAudioProcessorEditor()
@@ -37,66 +41,57 @@ void VocalSynthAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    
-    for (int i = 0; i < 12; i++)
-    {
-        for (int j = 0; j < 5; j++){
-            
-            auto rect = juce::Rectangle<float> ((j * getWidth()/5), ((11-i) * getHeight()/12), getWidth()/5, getHeight()/12);
-            g.setColour(juce::Colours::white);
-            g.drawRect(rect);
-            if (j < 1)
-            {
-                g.drawText(std::to_string(i+1), rect, juce::Justification::centred, false);
-            }
-            else
-            {
-                g.setColour(gridColors[(i)+((j-1)*12)]);
-                g.fillRect(rect);
-                g.setColour(juce::Colours::white);
-                g.drawRect(rect);
-            }
-        }
-    }
+    //auto x = getLocalBounds().getX();
+    //auto y = getLocalBounds().getCentreY();
+    //g.drawRect(x, y, 10, 10);
+    //g.setColour(juce::Colours::white);
+    //g.drawRect(0, 0, getWidth(), getHeight()/8);
+    //g.drawRect(0, getHeight()/8, getWidth(), getHeight()/8);
+    //g.setColour(juce::Colours::white);
+    //g.drawRect(0, getHeight()/4, getWidth()/5, getHeight()*3/4);
 }
 void VocalSynthAudioProcessorEditor::mouseDown (const juce::MouseEvent& e)
 {
-    lastMousePosition = e.position;
-    for (int i = 0; i < 12; i++)
-    {
-        for (int j = 1; j < 5; j++){
-            if (notes[(i)+((j-1)*12)].contains(e.position))
-            {
-                if (gridColors[(i)+((j-1)*12)] == juce::Colours::black)
-                {
-                    gridColors[(i)+((j-1)*12)] = juce::Colours::blue;
-                }
-                else
-                {
-                    gridColors[(i)+((j-1)*12)] = juce::Colours::black;
-                }
-                return;
-            }
-        }
-    }
-    
-    
 }
 void VocalSynthAudioProcessorEditor::mouseUp (const juce::MouseEvent&)
 {
-    repaint();
+    //repaint();
 }
 
 void VocalSynthAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
-    for (int i = 0; i < 12; i++)
-    {
-        for (int j = 1; j < 5; j++){
-            //gridColors[(i)+((j-1)*12)] = juce::Colours::black;
-            notes[(i)+((j-1)*12)]
-            = juce::Rectangle<float> ((j * getWidth()/5), ((11-i) * getHeight()/12), getWidth()/5, getHeight()/12);
-        }
-    }
+    //Set Bounding Areas
+    auto windowBounds = getLocalBounds();
+    auto toolBarArea = windowBounds.removeFromTop(getHeight()/4);
+    //auto pianoArea = windowBounds.removeFromRight(getWidth());
+    auto gridArea = windowBounds.removeFromRight(getWidth()*4/5);
+    auto pianoArea = windowBounds;
+    auto x = getWidth()/ 5;
+    auto y = getHeight()/4;
+    
+    //Tool Bar Area
+    auto toolBarWidth = toolBarArea.getWidth();
+    auto toolBarHeight = toolBarArea.getHeight();
+    toolBarArea.removeFromLeft(toolBarWidth/4);
+    toolBarArea.removeFromRight(toolBarWidth/4);
+    
+    
+    juce::FlexBox toolBarFlexBox;
+    toolBarFlexBox.flexWrap = juce::FlexBox::Wrap::wrap;
+    toolBarFlexBox.justifyContent = juce::FlexBox::JustifyContent::spaceAround;
+    toolBarFlexBox.alignContent = juce::FlexBox::AlignContent::spaceAround;
+    toolBarFlexBox.flexDirection = juce::FlexBox::Direction::row;
+    
+    toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
+    toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
+    toolBarFlexBox.items.add(juce::FlexItem(volumeSlider).withMinWidth(toolBarWidth/6).withMinHeight(toolBarHeight/2));
+    toolBarFlexBox.performLayout(toolBarArea);
+    
+    //Piano Grid Area
+    keyboardComponent.setKeyWidth(pianoArea.getHeight()/7);
+    keyboardComponent.setBounds(pianoArea);
+    piano.setBounds(gridArea);
+    //keyboardComponent.setKeyWidth(piano.getHeight()/12);
+    viewport.setBounds(gridArea);
+    //keyboardComponent.setBounds(panelArea);
 }

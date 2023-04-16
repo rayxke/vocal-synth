@@ -10,7 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-
+#include "GridComponent.h"
 //==============================================================================
 /**
 */
@@ -29,6 +29,13 @@ public:
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
+    GridComponent piano;
+    Component topMenu;
+    juce::Viewport viewport;
+    juce::Slider volumeSlider;
+    juce::TextButton playButton {"Play"}; //("Play", juce::Color::green, juce::Color::green, juce::Color::green);
+    juce::TextButton stopButton {"Stop"}; //("Stop", juce::Color::red, juce::Color::red, juce::Color::red);
+    juce::PopupMenu popupMenu;
     VocalSynthAudioProcessor& audioProcessor;
     juce::MidiKeyboardState keyboardState;
     juce::AudioSourcePlayer audioSourcePlayer;

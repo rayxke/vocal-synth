@@ -8,6 +8,9 @@
             file="Source/PluginProcessor.cpp"/>
       <FILE id="jGpszh" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
+      <FILE id="C4Tfob" name="GridComponent.cpp" compile="1" resource="0"
+            file="Source/GridComponent.cpp"/>
+      <FILE id="AOvR9s" name="GridComponent.h" compile="0" resource="0" file="Source/GridComponent.h"/>
       <FILE id="nO0UJq" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="ho45CJ" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
