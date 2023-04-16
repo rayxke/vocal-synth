@@ -149,9 +149,6 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, numSamples);
-    
-    //for (int i = 0; i < synth.getNumVoices(); i++)
-    //    (synth.getVoice(i))->controllerMoved(0, 100);
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -162,15 +159,8 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-        /*for (auto i = 0; i < numSamples; ++i)
-        {
-            auto in = channelData[i];
-        }*/
-        // ..do something to the data...
     }
     keyboardState.processNextMidiBuffer (midiMessages, 0, numSamples, true);
-    //juce::MidiBuffer incomingMidi;
-    //midiCollector.removeNextBlockOfMessages (incomingMidi, numSamples);
     synth.renderNextBlock (buffer, midiMessages, 0, numSamples);
 }
 
@@ -210,8 +200,8 @@ void VocalSynthAudioProcessor::initialiseSynth()
         synth.addVoice (new juce::SamplerVoice());
     }
 
-    setUsingSineWaveSound();
-    //setUsingSampledSound(2);
+    //setUsingSineWaveSound();
+    setUsingSampledSound(2);
 }
 
 void VocalSynthAudioProcessor::setUsingSineWaveSound()

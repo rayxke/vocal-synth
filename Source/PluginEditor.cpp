@@ -27,8 +27,6 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addAndMakeVisible(stopButton);
     keyboardComponent.setAvailableRange(60, 71);
     addAndMakeVisible(keyboardComponent);
-    //topMenu.addAndMakeVisible(&volumeSlider);
-    //addAndMakeVisible(topMenu);
     
 }
 
@@ -55,11 +53,8 @@ void VocalSynthAudioProcessorEditor::resized()
     //Set Bounding Areas
     auto windowBounds = getLocalBounds();
     auto toolBarArea = windowBounds.removeFromTop(getHeight()/4);
-    //auto pianoArea = windowBounds.removeFromRight(getWidth());
     auto gridArea = windowBounds.removeFromRight(getWidth()*4/5);
     auto pianoArea = windowBounds;
-    auto x = getWidth()/ 5;
-    auto y = getHeight()/4;
     
     //Tool Bar Area
     auto toolBarWidth = toolBarArea.getWidth();
@@ -79,11 +74,9 @@ void VocalSynthAudioProcessorEditor::resized()
     toolBarFlexBox.items.add(juce::FlexItem(volumeSlider).withMinWidth(toolBarWidth/6).withMinHeight(toolBarHeight/2));
     toolBarFlexBox.performLayout(toolBarArea);
     
-    //Piano Grid Area
+    //Piano & Grid Area
     keyboardComponent.setKeyWidth(pianoArea.getHeight()/7);
     keyboardComponent.setBounds(pianoArea);
     piano.setBounds(gridArea);
-    //keyboardComponent.setKeyWidth(piano.getHeight()/12);
     viewport.setBounds(gridArea);
-    //keyboardComponent.setBounds(panelArea);
 }

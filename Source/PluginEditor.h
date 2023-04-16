@@ -33,14 +33,11 @@ private:
     Component topMenu;
     juce::Viewport viewport;
     juce::Slider volumeSlider;
-    juce::TextButton playButton {"Play"}; //("Play", juce::Color::green, juce::Color::green, juce::Color::green);
-    juce::TextButton stopButton {"Stop"}; //("Stop", juce::Color::red, juce::Color::red, juce::Color::red);
+    juce::TextButton playButton {"Play"};
+    juce::TextButton stopButton {"Stop"};
     juce::PopupMenu popupMenu;
     VocalSynthAudioProcessor& audioProcessor;
-    //juce::AudioSourcePlayer audioSourcePlayer;
-    //SynthAudioSource synthAudioSource        { keyboardState };
     juce::MidiKeyboardComponent keyboardComponent;
-    //juce::Grid grid;
     juce::Point<float> lastMousePosition;
     std::map<juce::Rectangle<float>, juce::Colour> clicked;
     juce::Rectangle<float> notes[48];
