@@ -12,8 +12,8 @@ GridComponent::GridComponent(){
     for (int i = 0; i < 12; i++)
     {
         for (int j = 0; j < 4; j++){
-            gridColors[(i)+((j)*12)] = juce::Colours::black;
-            notes[(i)+((j)*12)]
+            gridColors[i][j] = juce::Colours::black;
+            notes[i][j]
             = juce::Rectangle<float> ((j * getWidth()/4) +keyboard.getRight(), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
         }
     }
@@ -29,7 +29,7 @@ void GridComponent::paint(juce::Graphics &g){
             auto rect = juce::Rectangle<float> ((j * getWidth()/4)+keyboard.getRight(), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
             g.setColour(juce::Colours::white);
             g.drawRect(rect);
-                g.setColour(gridColors[(i)+((j)*12)]);
+                g.setColour(gridColors[i][j]);
                 g.fillRect(rect);
                 g.setColour(juce::Colours::white);
                 g.drawRect(rect);
@@ -43,16 +43,10 @@ void GridComponent::mouseDown (const juce::MouseEvent& e)
     for (int i = 0; i < 12; i++)
     {
         for (int j = 0; j < 4; j++){
-            if (notes[(i)+((j)*12)].contains(e.position))
+            if (notes[i][j].contains(e.position))
             {
-                if (gridColors[(i)+((j)*12)] == juce::Colours::black)
-                {
-                    gridColors[(i)+((j)*12)] = juce::Colours::blue;
-                }
-                else
-                {
-                    gridColors[(i)+((j)*12)] = juce::Colours::black;
-                }
+                soundBlocks[i][j] = !soundBlocks[i][j];
+                gridColors[i][j]  = soundBlocks[i][j] ? juce::Colours::blue : juce::Colours::black;
                 return;
             }
         }
@@ -76,9 +70,15 @@ void GridComponent::resized()
     for (int i = 0; i < 12; i++)
     {
         for (int j = 0; j < 4; j++){
-            notes[(i)+((j)*12)]
+            notes[i][j]
             = juce::Rectangle<float> ((j * getWidth()/4)+keyboard.getRight(), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
         }
     }
     
+}
+
+
+bool * GridComponent::getSoundBlocks()
+{
+    return soundBlocks;
 }
