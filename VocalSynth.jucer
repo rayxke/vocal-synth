@@ -3,6 +3,13 @@
 <JUCERPROJECT id="WBDqyv" name="VocalSynth" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="C3awpm" name="VocalSynth">
+    <GROUP id="{EDDAED55-B98B-0932-F153-BABE6E70ED45}" name="Assets">
+      <GROUP id="{01D8F879-FAB4-FF1D-968D-2DBCB8FEFEFB}" name="phonemes">
+        <FILE id="OXcI1f" name="phoneme-b.wav" compile="0" resource="1" file="../../JUCE/examples/Assets/phonemes/phoneme-b.wav"/>
+        <FILE id="WYluCI" name="phoneme-d.wav" compile="0" resource="1" file="../../JUCE/examples/Assets/phonemes/phoneme-d.wav"/>
+        <FILE id="bC3bxi" name="phoneme-f.wav" compile="0" resource="1" file="../../JUCE/examples/Assets/phonemes/phoneme-f.wav"/>
+      </GROUP>
+    </GROUP>
     <GROUP id="{A5DE618D-6A33-74CC-92E5-F60D1DF84394}" name="Source">
       <FILE id="KaGgOF" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
@@ -13,6 +20,7 @@
       <FILE id="AOvR9s" name="GridComponent.h" compile="0" resource="0" file="Source/GridComponent.h"/>
       <FILE id="nO0UJq" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
+      <FILE id="JThaze" name="SineWaveVoice.h" compile="0" resource="0" file="Source/SineWaveVoice.h"/>
       <FILE id="ho45CJ" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>

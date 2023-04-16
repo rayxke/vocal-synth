@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "SineWaveVoice.h"
 
 //==============================================================================
 VocalSynthAudioProcessor::VocalSynthAudioProcessor()
@@ -22,6 +23,7 @@ VocalSynthAudioProcessor::VocalSynthAudioProcessor()
                        )
 #endif
 {
+    initialiseSynth();
 }
 
 VocalSynthAudioProcessor::~VocalSynthAudioProcessor()
@@ -95,12 +97,15 @@ void VocalSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    //midiCollector.reset (sampleRate);
+    synth.setCurrentPlaybackSampleRate (sampleRate);
 }
 
 void VocalSynthAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
+    keyboardState.reset();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -134,6 +139,7 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
+    auto numSamples = buffer.getNumSamples();
 
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -142,7 +148,10 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     // when they first compile a plugin, but obviously you don't need to keep
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+        buffer.clear (i, 0, numSamples);
+    
+    //for (int i = 0; i < synth.getNumVoices(); i++)
+    //    (synth.getVoice(i))->controllerMoved(0, 100);
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -153,9 +162,16 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-
+        /*for (auto i = 0; i < numSamples; ++i)
+        {
+            auto in = channelData[i];
+        }*/
         // ..do something to the data...
     }
+    keyboardState.processNextMidiBuffer (midiMessages, 0, numSamples, true);
+    //juce::MidiBuffer incomingMidi;
+    //midiCollector.removeNextBlockOfMessages (incomingMidi, numSamples);
+    synth.renderNextBlock (buffer, midiMessages, 0, numSamples);
 }
 
 //==============================================================================
@@ -182,7 +198,70 @@ void VocalSynthAudioProcessor::setStateInformation (const void* data, int sizeIn
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
+//==============================================================================
+void VocalSynthAudioProcessor::initialiseSynth()
+{
+    auto numVoices = 8;
 
+    // Add some voices...
+    for (auto i = 0; i < numVoices; ++i)
+    {
+        synth.addVoice (new SineWaveVoice());
+        synth.addVoice (new juce::SamplerVoice());
+    }
+
+    setUsingSineWaveSound();
+    //setUsingSampledSound(2);
+}
+
+void VocalSynthAudioProcessor::setUsingSineWaveSound()
+{
+    synth.clearSounds();
+    synth.addSound (new SineWaveSound());
+}
+
+void VocalSynthAudioProcessor::setUsingSampledSound(int phonemeId)
+{
+    juce::WavAudioFormat wavFormat;
+    juce::MemoryInputStream* input;
+    switch(phonemeId)
+    {
+        case 2:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeb_wav, BinaryData::phonemeb_wavSize, false);
+            break;
+        }
+        case 3:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemed_wav, BinaryData::phonemed_wavSize, false);
+            break;
+        }
+        case 4:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemef_wav, BinaryData::phonemef_wavSize, false);
+            break;
+        }
+        default:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeb_wav, BinaryData::phonemeb_wavSize, false);
+            break;
+        }
+    }
+    std::unique_ptr<juce::AudioFormatReader> audioReader (wavFormat.createReaderFor (input, true));
+
+    juce::BigInteger allNotes;
+    allNotes.setRange (0, 128, true);
+
+    synth.clearSounds();
+    synth.addSound (new juce::SamplerSound ("demo sound",
+                                      *audioReader,
+                                      allNotes,
+                                      74,   // root midi note
+                                      0.1,  // attack time
+                                      0.1,  // release time
+                                      10.0  // maximum sample length
+                                      ));
+}
 //==============================================================================
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()

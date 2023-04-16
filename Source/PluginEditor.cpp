@@ -11,7 +11,7 @@
 
 //==============================================================================
 VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+: AudioProcessorEditor (&p), audioProcessor (p), keyboardComponent(p.keyboardState, juce::MidiKeyboardComponent::verticalKeyboardFacingRight)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -41,14 +41,6 @@ void VocalSynthAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    //auto x = getLocalBounds().getX();
-    //auto y = getLocalBounds().getCentreY();
-    //g.drawRect(x, y, 10, 10);
-    //g.setColour(juce::Colours::white);
-    //g.drawRect(0, 0, getWidth(), getHeight()/8);
-    //g.drawRect(0, getHeight()/8, getWidth(), getHeight()/8);
-    //g.setColour(juce::Colours::white);
-    //g.drawRect(0, getHeight()/4, getWidth()/5, getHeight()*3/4);
 }
 void VocalSynthAudioProcessorEditor::mouseDown (const juce::MouseEvent& e)
 {

@@ -37,10 +37,9 @@ private:
     juce::TextButton stopButton {"Stop"}; //("Stop", juce::Color::red, juce::Color::red, juce::Color::red);
     juce::PopupMenu popupMenu;
     VocalSynthAudioProcessor& audioProcessor;
-    juce::MidiKeyboardState keyboardState;
-    juce::AudioSourcePlayer audioSourcePlayer;
+    //juce::AudioSourcePlayer audioSourcePlayer;
     //SynthAudioSource synthAudioSource        { keyboardState };
-    juce::MidiKeyboardComponent keyboardComponent  { keyboardState, juce::MidiKeyboardComponent::verticalKeyboardFacingRight};
+    juce::MidiKeyboardComponent keyboardComponent;
     //juce::Grid grid;
     juce::Point<float> lastMousePosition;
     std::map<juce::Rectangle<float>, juce::Colour> clicked;
