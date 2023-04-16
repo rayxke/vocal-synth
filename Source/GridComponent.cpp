@@ -7,8 +7,8 @@
 #include "GridComponent.h"
     
 
-GridComponent::GridComponent(){
-    
+GridComponent::GridComponent()
+{    
     for (int i = 0; i < 12; i++)
     {
         for (int j = 0; j < 4; j++){
@@ -29,10 +29,11 @@ void GridComponent::paint(juce::Graphics &g){
             auto rect = juce::Rectangle<float> ((j * getWidth()/4)+keyboard.getRight(), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
             g.setColour(juce::Colours::white);
             g.drawRect(rect);
-                g.setColour(gridColors[i][j]);
-                g.fillRect(rect);
-                g.setColour(juce::Colours::white);
-                g.drawRect(rect);
+            g.setColour(gridColors[i][j]);
+            g.fillRect(rect);
+            g.setColour(juce::Colours::white);
+            g.drawRect(rect);
+            g.drawText(std::to_string(i), rect, juce::Justification::left);
         }
     }
 }
@@ -77,8 +78,7 @@ void GridComponent::resized()
     
 }
 
-
-bool * GridComponent::getSoundBlocks()
+bool GridComponent::getSoundBlocks()
 {
     return soundBlocks;
 }

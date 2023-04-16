@@ -25,11 +25,13 @@ public:
     void resized() override;
     void mouseDown(const juce::MouseEvent&) override;
     void mouseUp (const juce::MouseEvent&) override;
+    void setNoteNumber (int noteNumber);
+    void addMessageToList (const juce::MidiMessage& );
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    GridComponent piano;
+    GridComponent soundGrid;
     Component topMenu;
     juce::Viewport viewport;
     juce::Slider volumeSlider;
@@ -42,5 +44,7 @@ private:
     std::map<juce::Rectangle<float>, juce::Colour> clicked;
     juce::Rectangle<float> notes[48];
     juce::Colour gridColors[48];
+    int midiChannel = 10;
+    double startTime;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VocalSynthAudioProcessorEditor)
 };

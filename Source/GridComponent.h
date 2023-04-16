@@ -22,13 +22,11 @@ public:
     void resized() override;
     void mouseDown(const juce::MouseEvent&) override;
     void mouseUp (const juce::MouseEvent&) override;
-    bool * getSoundBlocks();
+    bool getSoundBlocks();
     
     
     
     private:
-    juce::MidiKeyboardState keyboardState;
-    juce::MidiKeyboardComponent keyboard { keyboardState, juce::MidiKeyboardComponent::verticalKeyboardFacingRight};;
     juce::Point<float> lastMousePosition;
     juce::Viewport viewport;
     std::map<juce::Rectangle<float>, juce::Colour> clicked;
