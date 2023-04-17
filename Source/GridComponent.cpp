@@ -14,7 +14,7 @@ GridComponent::GridComponent()
         for (int j = 0; j < 4; j++){
             gridColors[i][j] = juce::Colours::black;
             notes[i][j]
-            = juce::Rectangle<float> ((j * getWidth()/4) +keyboard.getRight(), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
+            = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
         }
     }
 }
@@ -26,7 +26,7 @@ void GridComponent::paint(juce::Graphics &g){
     {
         for (int j = 0; j < 4; j++){
             
-            auto rect = juce::Rectangle<float> ((j * getWidth()/4)+keyboard.getRight(), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
+            auto rect = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
             g.setColour(juce::Colours::white);
             g.drawRect(rect);
             g.setColour(gridColors[i][j]);
@@ -72,7 +72,7 @@ void GridComponent::resized()
     {
         for (int j = 0; j < 4; j++){
             notes[i][j]
-            = juce::Rectangle<float> ((j * getWidth()/4)+keyboard.getRight(), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
+            = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
         }
     }
     
