@@ -32,11 +32,11 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     GridComponent soundGrid;
-    Component topMenu;
     juce::Viewport viewport;
     juce::Slider volumeSlider;
     juce::TextButton playButton {"Play"};
     juce::TextButton stopButton {"Stop"};
+    juce::TextButton recordButton{ "Record" };
     juce::PopupMenu popupMenu;
     VocalSynthAudioProcessor& audioProcessor;
     juce::MidiKeyboardComponent keyboardComponent;

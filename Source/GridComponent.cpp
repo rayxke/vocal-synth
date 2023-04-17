@@ -12,7 +12,6 @@ GridComponent::GridComponent()
     for (int i = 0; i < 12; i++)
     {
         for (int j = 0; j < 4; j++){
-            gridColors[i][j] = juce::Colours::black;
             notes[i][j]
             = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
         }
@@ -26,14 +25,14 @@ void GridComponent::paint(juce::Graphics &g){
     {
         for (int j = 0; j < 4; j++){
             
-            auto rect = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
+           //auto rect = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
             g.setColour(juce::Colours::white);
-            g.drawRect(rect);
+            g.drawRect(notes[i][j]);
             g.setColour(gridColors[i][j]);
-            g.fillRect(rect);
+            g.fillRect(notes[i][j]);
             g.setColour(juce::Colours::white);
-            g.drawRect(rect);
-            g.drawText(std::to_string(i), rect, juce::Justification::left);
+            g.drawRect(notes[i][j]);
+            g.drawText(std::to_string(i), notes[i][j], juce::Justification::left);
         }
     }
 }
@@ -78,7 +77,7 @@ void GridComponent::resized()
     
 }
 
-bool GridComponent::getSoundBlocks()
+bool GridComponent::getSoundBlocks(int i, int j)
 {
-    return soundBlocks;
+    return soundBlocks[i][j];
 }

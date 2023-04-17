@@ -25,8 +25,13 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addAndMakeVisible(volumeSlider);
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
+    addAndMakeVisible(recordButton);
     keyboardComponent.setAvailableRange(60, 71);
     addAndMakeVisible(keyboardComponent);
+
+    //recordButton.onClick = [this] {record()};
+    //playButton.onClick = [this] {play()};
+    //stopButton.onClick = [this] {stop()};
     
 }
 
@@ -69,8 +74,9 @@ void VocalSynthAudioProcessorEditor::resized()
     toolBarFlexBox.alignContent = juce::FlexBox::AlignContent::spaceAround;
     toolBarFlexBox.flexDirection = juce::FlexBox::Direction::row;
     
-    toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
+    toolBarFlexBox.items.add(juce::FlexItem(recordButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8)); 
     toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
+    toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     toolBarFlexBox.items.add(juce::FlexItem(volumeSlider).withMinWidth(toolBarWidth/6).withMinHeight(toolBarHeight/2));
     toolBarFlexBox.performLayout(toolBarArea);
     
@@ -102,7 +108,20 @@ void VocalSynthAudioProcessorEditor::addMessageToList (const juce::MidiMessage& 
 
 void VocalSynthAudioProcessorEditor::setNoteNumber (int noteNumber)
 {
-    auto message = juce::MidiMessage::noteOn (midiChannel, noteNumber, (juce::uint8) 100);
-    message.setTimeStamp (juce::Time::getMillisecondCounterHiRes() * 0.001 - startTime);
-    addMessageToList (message);
+
+    for (int i = 0; i < 12; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            //convert soundblocks to midi messages here
+            if (soundGrid.getSoundBlocks(i,j))
+            {
+                auto message = juce::MidiMessage::noteOn(midiChannel, i + 50, (juce::uint8)100);
+                message.setTimeStamp(juce::Time::getMillisecondCounterHiRes() * 0.001 - startTime);
+                addMessageToList(message);
+            }
+            
+        }
+    }
+    
 }

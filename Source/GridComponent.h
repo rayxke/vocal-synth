@@ -22,16 +22,15 @@ public:
     void resized() override;
     void mouseDown(const juce::MouseEvent&) override;
     void mouseUp (const juce::MouseEvent&) override;
-    bool getSoundBlocks();
+    bool getSoundBlocks(int, int);
     
     
     
     private:
     juce::Point<float> lastMousePosition;
     juce::Viewport viewport;
-    std::map<juce::Rectangle<float>, juce::Colour> clicked;
     juce::Rectangle<float> notes[12][4];
     bool soundBlocks[12][4] = {false};
-    juce::Colour gridColors[12][4];
+    juce::Colour gridColors[12][4] = { juce::Colours::black };
 };
 
