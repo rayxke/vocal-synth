@@ -64,6 +64,7 @@ public:
     juce::Synthesiser synth;
     juce::MidiKeyboardState keyboardState;
     juce::MidiMessageCollector midiCollector;
+    juce::MidiMessageSequence midiSequence;
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VocalSynthAudioProcessor)

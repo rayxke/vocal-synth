@@ -25,12 +25,13 @@ public:
     void resized() override;
     void mouseDown(const juce::MouseEvent&) override;
     void mouseUp (const juce::MouseEvent&) override;
-    void setNoteNumber (int noteNumber);
-    void addMessageToList (const juce::MidiMessage& );
+    void play();
+    void stop();
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
+    VocalSynthAudioProcessor& audioProcessor;
     GridComponent soundGrid;
     juce::Viewport viewport;
     juce::Slider volumeSlider;
@@ -38,7 +39,6 @@ private:
     juce::TextButton stopButton {"Stop"};
     juce::TextButton recordButton{ "Record" };
     juce::PopupMenu popupMenu;
-    VocalSynthAudioProcessor& audioProcessor;
     juce::MidiKeyboardComponent keyboardComponent;
     juce::Point<float> lastMousePosition;
     std::map<juce::Rectangle<float>, juce::Colour> clicked;

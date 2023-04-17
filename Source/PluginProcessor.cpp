@@ -97,7 +97,7 @@ void VocalSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    //midiCollector.reset (sampleRate);
+    midiCollector.reset (sampleRate);
     synth.setCurrentPlaybackSampleRate (sampleRate);
 }
 
@@ -149,7 +149,6 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, numSamples);
-
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
     // Make sure to reset the state if your inner loop is processing
@@ -160,7 +159,11 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     {
         auto* channelData = buffer.getWritePointer (channel);
     }
-    keyboardState.processNextMidiBuffer (midiMessages, 0, numSamples, true);
+    auto numEvents = midiSequence.getNumEvents();
+    //for (auto event = 0;  event<numEvents; event++)
+    //    midiCollector.addMessageToQueue(output.getMessage());
+    //keyboardState.processNextMidiBuffer (midiMessages, 0, numSamples, true);
+    midiCollector.removeNextBlockOfMessages(midiMessages, numSamples);
     synth.renderNextBlock (buffer, midiMessages, 0, numSamples);
 }
 
