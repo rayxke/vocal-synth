@@ -186,7 +186,7 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             {
                 midiMessages.addEvent(juce::MidiMessage::noteOn(1, i+60, (juce::uint8)127), offset);
             }
-            if (myBlocks[i][(beatCount - 1) % 4])
+            else
             {
                 midiMessages.addEvent(juce::MidiMessage::noteOff(1, i+60), offset);
             }
