@@ -99,6 +99,11 @@ void VocalSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     // initialisation that you need..
     midiCollector.reset (sampleRate);
     synth.setCurrentPlaybackSampleRate (sampleRate);
+    //notes.clear();
+    //currentNote = 0;
+    //lastNoteValue = -1;
+    time = 0;
+    rate = static_cast<float> (sampleRate);
 }
 
 void VocalSynthAudioProcessor::releaseResources()
@@ -141,6 +146,9 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     auto numSamples = buffer.getNumSamples();
 
+    // get note duration
+    auto noteDuration = static_cast<int> (std::ceil(rate * 0.25f * (0.1f + (1.0f))));
+
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -149,6 +157,39 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, numSamples);
+
+    midiCollector.removeNextBlockOfMessages(midiMessages, numSamples);
+
+    for (const auto metadata : midiMessages)
+    {
+        const auto msg = metadata.getMessage();
+        if (msg.isNoteOn())  notes.add(msg.getNoteNumber());
+        else if (msg.isNoteOff()) notes.removeValue(msg.getNoteNumber());
+    }
+
+    midiMessages.clear();
+
+    if ((time + numSamples) >= noteDuration)
+    {
+        auto offset = juce::jmax(0, juce::jmin((int)(noteDuration - time), numSamples - 1));
+
+        if (lastNoteValue > 0)
+        {
+            midiMessages.addEvent(juce::MidiMessage::noteOff(1, lastNoteValue), offset);
+            lastNoteValue = -1;
+        }
+
+        if (notes.size() > 0)
+        {
+            currentNote = (currentNote + 1) % notes.size();
+            lastNoteValue = notes[currentNote];
+            midiMessages.addEvent(juce::MidiMessage::noteOn(1, lastNoteValue, (juce::uint8)127), offset);
+        }
+
+    }
+
+    time = (time + numSamples) % noteDuration;
+
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
     // Make sure to reset the state if your inner loop is processing
@@ -163,7 +204,6 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     //for (auto event = 0;  event<numEvents; event++)
     //    midiCollector.addMessageToQueue(output.getMessage());
     //keyboardState.processNextMidiBuffer (midiMessages, 0, numSamples, true);
-    midiCollector.removeNextBlockOfMessages(midiMessages, numSamples);
     synth.renderNextBlock (buffer, midiMessages, 0, numSamples);
 }
 
@@ -203,8 +243,8 @@ void VocalSynthAudioProcessor::initialiseSynth()
         synth.addVoice (new juce::SamplerVoice());
     }
 
-    //setUsingSineWaveSound();
-    setUsingSampledSound(2);
+    setUsingSineWaveSound();
+    //setUsingSampledSound(2);
 }
 
 void VocalSynthAudioProcessor::setUsingSineWaveSound()

@@ -65,6 +65,10 @@ public:
     juce::MidiKeyboardState keyboardState;
     juce::MidiMessageCollector midiCollector;
     juce::MidiMessageSequence midiSequence;
+    int time;
+    float rate;
+    juce::SortedSet<int> notes;
+    int currentNote, lastNoteValue;
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VocalSynthAudioProcessor)
