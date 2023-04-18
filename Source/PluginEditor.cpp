@@ -109,17 +109,19 @@ void VocalSynthAudioProcessorEditor::resized()
 void VocalSynthAudioProcessorEditor::play()
 {
     double timerInterval = juce::Time::getMillisecondCounterHiRes() * 0.001 - startTime;
-    for (int j = 0; j < 4; j++)
-    {
         
-        for (int i = 0; i < 12; i++)
+    for (int i = 0; i < 12; i++)
+        for (int j = 0; j < 4; j++)
+            audioProcessor.myBlocks[i][j] = soundGrid.getSoundBlocks(i, j);
+        //int j = audioProcessor.beatCount;
+        /*for (int i = 0; i < 12; i++)
         {
             //convert soundblocks to midi messages here
             if (soundGrid.getSoundBlocks(i,j))
             {
                 //audioProcessor.keyboardState.noteOn(midiChannel,  i + 60, 1.0f);
                 auto message = juce::MidiMessage::noteOn(midiChannel, i + 60, (juce::uint8)100);
-                message.setTimeStamp(timerInterval * j+1);
+                message.setTimeStamp(timerInterval * (j+1));
                 audioProcessor.midiCollector.addMessageToQueue(message);
                 //audioProcessor.midiSequence.addEvent(message);
                 //auto message = juce::MidiMessage::noteOn(midiChannel, i + 50, (juce::uint8)100);
@@ -130,22 +132,36 @@ void VocalSynthAudioProcessorEditor::play()
             {
                 //audioProcessor.keyboardState.noteOff(midiChannel,  i + 60, 1.0f);
                 auto message = juce::MidiMessage::noteOff(midiChannel, i + 60, (juce::uint8)100);
-                message.setTimeStamp(timerInterval * j+1);
+                message.setTimeStamp(timerInterval * (j+1));
                 //audioProcessor.midiSequence.addEvent(message);
                 //addMessageToList(message);
             }
-            
-        }
-    }
-    
+            if (j > 0)
+            {
+                if (soundGrid.getSoundBlocks(i, j-1))
+                {
+                    //audioProcessor.keyboardState.noteOn(midiChannel,  i + 60, 1.0f);
+                    auto message = juce::MidiMessage::noteOff(midiChannel, i + 60);
+                    message.setTimeStamp(timerInterval * (j-1 + 1));
+                    audioProcessor.midiCollector.addMessageToQueue(message);
+                    //audioProcessor.midiSequence.addEvent(message);
+                    //auto message = juce::MidiMessage::noteOn(midiChannel, i + 50, (juce::uint8)100);
+                    //message.setTimeStamp(juce::Time::getMillisecondCounterHiRes() * 0.001 - startTime);
+                    //addMessageToList(message);
+                }
+            }
+        }*/    
 }
 
 
 void VocalSynthAudioProcessorEditor::stop()
 {
-
     for (int i = 0; i < 12; i++)
+        for (int j = 0; j < 4; j++)
+            audioProcessor.myBlocks[i][j] = false;
+    /*for (int i = 0; i < 12; i++)
     {
+        
         for (int j = 0; j < 4; j++)
         {
             //convert soundblocks to midi messages here
@@ -153,12 +169,12 @@ void VocalSynthAudioProcessorEditor::stop()
             {
                 //audioProcessor.keyboardState.noteOff(midiChannel,  i + 60, 1.0f);
                 auto message = juce::MidiMessage::noteOff(midiChannel, i + 60, (juce::uint8)100);
-                message.setTimeStamp(juce::Time::getMillisecondCounterHiRes() * 0.001 - startTime);
+                message.setTimeStamp(j+1);
                 audioProcessor.midiCollector.addMessageToQueue(message);
                 //addMessageToList(message);
             }
             
         }
-    }
+    }*/
     
 }

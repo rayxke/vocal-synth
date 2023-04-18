@@ -45,6 +45,7 @@ private:
     juce::Rectangle<float> notes[48];
     juce::Colour gridColors[48];
     int midiChannel = 10;
+    int myBeat;
     double startTime;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VocalSynthAudioProcessorEditor)
 };

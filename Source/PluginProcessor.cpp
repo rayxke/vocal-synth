@@ -103,6 +103,8 @@ void VocalSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     //currentNote = 0;
     //lastNoteValue = -1;
     time = 0;
+    beatCount = 0;
+    mytime = 1;
     rate = static_cast<float> (sampleRate);
 }
 
@@ -158,37 +160,54 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, numSamples);
 
-    midiCollector.removeNextBlockOfMessages(midiMessages, numSamples);
+    //midiCollector.removeNextBlockOfMessages(midiMessages, numSamples);
 
-    for (const auto metadata : midiMessages)
+    
+    /*for (const auto metadata : midiMessages)
     {
         const auto msg = metadata.getMessage();
-        if (msg.isNoteOn())  notes.add(msg.getNoteNumber());
-        else if (msg.isNoteOff()) notes.removeValue(msg.getNoteNumber());
-    }
+        auto msgtime = msg.getTimeStamp();
+        //if (msg.getTimeStamp() == mytime)
+        //{
+            if (msg.isNoteOn())  notes.add(msg.getNoteNumber());
+            else if (msg.isNoteOff()) notes2.add(msg.getNoteNumber());
+        //}  
+    }*/
 
-    midiMessages.clear();
+    //midiMessages.clear();
 
     if ((time + numSamples) >= noteDuration)
     {
         auto offset = juce::jmax(0, juce::jmin((int)(noteDuration - time), numSamples - 1));
-
-        if (lastNoteValue > 0)
+        
+        for (int i = 0; i < 12; i++)
         {
-            midiMessages.addEvent(juce::MidiMessage::noteOff(1, lastNoteValue), offset);
-            lastNoteValue = -1;
+            if (myBlocks[i][beatCount])
+            {
+                midiMessages.addEvent(juce::MidiMessage::noteOn(1, i+60, (juce::uint8)127), offset);
+            }
+            if (myBlocks[i][(beatCount - 1) % 4])
+            {
+                midiMessages.addEvent(juce::MidiMessage::noteOff(1, i+60), offset);
+            }
         }
-
-        if (notes.size() > 0)
+        
+        /*for (auto note2 : notes2)
         {
-            currentNote = (currentNote + 1) % notes.size();
-            lastNoteValue = notes[currentNote];
-            midiMessages.addEvent(juce::MidiMessage::noteOn(1, lastNoteValue, (juce::uint8)127), offset);
+            midiMessages.addEvent(juce::MidiMessage::noteOff(1, note2), offset);
         }
-
+        notes2.clear();
+        for (auto note : notes)
+        {
+            midiMessages.addEvent(juce::MidiMessage::noteOn(1, note, (juce::uint8)127), offset);
+            notes2.add(note);
+        }*/
+        beatCount++;
+        beatCount = beatCount % 4;
     }
 
     time = (time + numSamples) % noteDuration;
+
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -200,7 +219,7 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     {
         auto* channelData = buffer.getWritePointer (channel);
     }
-    auto numEvents = midiSequence.getNumEvents();
+    //auto numEvents = midiSequence.getNumEvents();
     //for (auto event = 0;  event<numEvents; event++)
     //    midiCollector.addMessageToQueue(output.getMessage());
     //keyboardState.processNextMidiBuffer (midiMessages, 0, numSamples, true);

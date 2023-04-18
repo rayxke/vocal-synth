@@ -67,7 +67,14 @@ public:
     juce::MidiMessageSequence midiSequence;
     int time;
     float rate;
+    int mytime;
+    int beatCount = 0;
+    bool myBlocks[12][4] = {false};
     juce::SortedSet<int> notes;
+    juce::SortedSet<int> notes2;
+    juce::SortedSet<int> notes3;
+    juce::SortedSet<int> notes4;
+
     int currentNote, lastNoteValue;
 private:
     //==============================================================================
