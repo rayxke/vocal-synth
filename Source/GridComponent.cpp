@@ -10,9 +10,9 @@
 GridComponent::GridComponent()
 {   
  
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < notes.size(); i++)
     {
-        for (int j = 0; j < 4; j++){
+        for (int j = 0; j < notes[i].size(); j++){
             notes[i][j]
             = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
             gridColors[i][j] = getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId);
@@ -24,9 +24,9 @@ GridComponent::~GridComponent(){}
 
 
 void GridComponent::paint(juce::Graphics &g){
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < notes.size(); i++)
     {
-        for (int j = 0; j < 4; j++){
+        for (int j = 0; j < notes[i].size(); j++) {
             
            //auto rect = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
             g.setColour(juce::Colours::white);
@@ -43,9 +43,9 @@ void GridComponent::paint(juce::Graphics &g){
 void GridComponent::mouseDown (const juce::MouseEvent& e)
 {
     lastMousePosition = e.position;
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < soundBlocks.size(); i++)
     {
-        for (int j = 0; j < 4; j++){
+        for (int j = 0; j < soundBlocks[i].size(); j++){
             if (notes[i][j].contains(e.position))
             {
                 soundBlocks[i][j] = !soundBlocks[i][j];
@@ -70,9 +70,9 @@ void GridComponent::resized()
     auto localWindow = getLocalBounds();
     auto keyboardArea = localWindow.removeFromLeft(getWidth()/5);
     auto gridArea = localWindow.removeFromRight(getWidth()* 4/5);
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < notes.size(); i++)
     {
-        for (int j = 0; j < 4; j++){
+        for (int j = 0; j < notes[i].size(); j++) {
             notes[i][j]
             = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
         }
