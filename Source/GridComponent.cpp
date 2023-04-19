@@ -74,8 +74,8 @@ void GridComponent::resized()
     {
         for (int j = 0; j < numNotes; j++) {
             notes[i][j]
-            = juce::Rectangle<float>((j * getWidth() / numNotes), ((11 - i) * getHeight() / 12), getWidth() / numNotes, getHeight() / 12);
-            //= juce::Rectangle<float>((j * getWidth() / 4), ((11 - i) * getHeight() / 12), getWidth() / 4, getHeight() / 12);
+            //= juce::Rectangle<float>((j * getWidth() / numNotes), ((11 - i) * getHeight() / 12), getWidth() / numNotes, getHeight() / 12);
+            = juce::Rectangle<float>((j * viewPortWidth / 4), ((11 - i) * viewPortHeight / 12), viewPortWidth / 4, viewPortHeight / 12);
             
         }
     }
@@ -101,4 +101,10 @@ void GridComponent::addBar()
         notes[i].resize(currentNumBars + 4);
         gridColors[i].resize(currentNumBars + 4);
     }
+}
+
+void GridComponent::setViewPortDimensions(int height, int width)
+{
+    viewPortHeight = height;
+    viewPortWidth = width;
 }

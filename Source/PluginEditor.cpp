@@ -18,7 +18,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     
     setSize (800, 600);
     setResizable(true, true);
-    addAndMakeVisible(soundGrid);
+    //addAndMakeVisible(soundGrid);
     viewport.setViewedComponent(&soundGrid);
     addAndMakeVisible(viewport);
     volumeSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
@@ -90,9 +90,11 @@ void VocalSynthAudioProcessorEditor::resized()
     //Piano & Grid Area
     keyboardComponent.setKeyWidth(pianoArea.getHeight()/7);
     keyboardComponent.setBounds(pianoArea);
-    soundGrid.setBounds(gridArea);
-    viewport.setBounds(gridArea.getX(), gridArea.getY(), gridArea.getWidth() * audioProcessor.numBars, gridArea.getHeight());
-    //viewport.setBounds(gridArea);
+    //soundGrid.setBounds(gridArea);
+    soundGrid.setBounds(gridArea.getX(), gridArea.getY(), gridArea.getWidth() * audioProcessor.numBars, gridArea.getHeight());
+    //viewport.setBounds(gridArea.getX(), gridArea.getY(), gridArea.getWidth() * audioProcessor.numBars, gridArea.getHeight());
+    viewport.setBounds(gridArea);
+    soundGrid.setViewPortDimensions(viewport.getHeight(), viewport.getWidth());
 
 }
 
@@ -129,5 +131,5 @@ void VocalSynthAudioProcessorEditor::addBar()
     {
         audioProcessor.myBlocks[i].resize(numNotes + 4);
     }
-    soundGrid.resized();
+    resized();
 }
