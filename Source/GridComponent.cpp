@@ -28,7 +28,6 @@ void GridComponent::paint(juce::Graphics &g){
     {
         for (int j = 0; j < notes[i].size(); j++) {
             
-           //auto rect = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
             g.setColour(juce::Colours::white);
             g.drawRect(notes[i][j]);
             g.setColour(gridColors[i][j]);
@@ -67,16 +66,17 @@ void GridComponent::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    auto localWindow = getLocalBounds();
-    auto keyboardArea = localWindow.removeFromLeft(getWidth()/5);
-    auto gridArea = localWindow.removeFromRight(getWidth()* 4/5);
+    //auto localWindow = getLocalBounds();
+    //auto keyboardArea = localWindow.removeFromLeft(getWidth()/5);
+    //auto gridArea = localWindow.removeFromRight(getWidth()* 4/5);
     auto numNotes = notes[0].size();
     for (int i = 0; i < notes.size(); i++)
     {
-        for (int j = 0; j < notes[i].size(); j++) {
+        for (int j = 0; j < numNotes; j++) {
             notes[i][j]
-            = juce::Rectangle<float>((j * getWidth() / 4), ((11 - i) * getHeight() / 12), getWidth() / 4, getHeight() / 12);
-            //= juce::Rectangle<float>((j * getWidth() / numNotes), ((11 - i) * getHeight() / 12), getWidth() / numNotes, getHeight() / 12);
+            = juce::Rectangle<float>((j * getWidth() / numNotes), ((11 - i) * getHeight() / 12), getWidth() / numNotes, getHeight() / 12);
+            //= juce::Rectangle<float>((j * getWidth() / 4), ((11 - i) * getHeight() / 12), getWidth() / 4, getHeight() / 12);
+            
         }
     }
     
@@ -89,7 +89,7 @@ bool GridComponent::getSoundBlocks(int i, int j)
 
 int GridComponent::getNumberOfNotes()
 {
-    return soundBlocks[0].size();
+    return soundBlocks.size();
 }
 
 void GridComponent::addBar()
