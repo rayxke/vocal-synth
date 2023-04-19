@@ -18,16 +18,21 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     
     setSize (800, 600);
     setResizable(true, true);
-    //addAndMakeVisible(soundGrid);
+    
+    //Set Up SoundGrid & ViewPort
     viewport.setViewedComponent(&soundGrid);
     soundGrid.setViewPortDimensions(viewport.getHeight(), viewport.getWidth());
     addAndMakeVisible(viewport);
-    volumeSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
+    
+    //ToolBar Buttons & Sliders
     addAndMakeVisible(volumeSlider);
+    volumeSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
     volumeSlider.setValue (volumeSlider.getMaximum());
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(addBarButton);
+    
+    //Lyric Editor Button
     addAndMakeVisible(lyricEditorLabel);
     lyricEditorLabel.setText("Lyric Editor:", juce::dontSendNotification);
     lyricEditorLabel.attachToComponent(&lyricEditor, true);
@@ -37,6 +42,8 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addAndMakeVisible(lyricEditor);
     lyricEditor.setEditable(true);
     lyricEditor.setColour(juce::Label::backgroundColourId, juce::Colours::darkblue);
+    
+    //Keyboard
     keyboardComponent.setAvailableRange(60, 71);
     addAndMakeVisible(keyboardComponent);
 
@@ -75,7 +82,7 @@ void VocalSynthAudioProcessorEditor::resized()
     toolBarArea.removeFromLeft(toolBarWidth/4);
     toolBarArea.removeFromRight(toolBarWidth/4);
     
-    
+    //Add Items to ToolBar
     juce::FlexBox toolBarFlexBox;
     toolBarFlexBox.flexWrap = juce::FlexBox::Wrap::wrap;
     toolBarFlexBox.justifyContent = juce::FlexBox::JustifyContent::spaceAround;
@@ -92,20 +99,20 @@ void VocalSynthAudioProcessorEditor::resized()
     //Piano & Grid Area
     keyboardComponent.setKeyWidth(pianoArea.getHeight()/7);
     keyboardComponent.setBounds(pianoArea);
-    //soundGrid.setBounds(gridArea);
+    //keyboardComponent.getKeyWidth();
+    
+    //Grid & Viewport Sizing
     viewport.setBounds(gridArea);
     soundGrid.setViewPortDimensions(viewport.getHeight(), viewport.getWidth());
+    
     soundGrid.setBounds(gridArea.getX(), gridArea.getY(), gridArea.getWidth() * audioProcessor.numBars, gridArea.getHeight());
-    //viewport.setBounds(gridArea.getX(), gridArea.getY(), gridArea.getWidth() * audioProcessor.numBars, gridArea.getHeight());
     
 
 }
 
 void VocalSynthAudioProcessorEditor::play()
 {
-    double timerInterval = juce::Time::getMillisecondCounterHiRes() * 0.001 - startTime;
-        
-    for (int i = 0; i < soundGrid.getNumberOfNotes(); i++)
+    for (int i = 0; i < soundGrid.getNumberOfKeys(); i++)
         for (int j = 0; j < totalNumBeats; j++)
             audioProcessor.myBlocks[i][j] = soundGrid.getSoundBlocks(i, j);    
 }
@@ -114,7 +121,7 @@ void VocalSynthAudioProcessorEditor::play()
 void VocalSynthAudioProcessorEditor::stop()
 {
 
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < soundGrid.getNumberOfKeys(); i++)
         for (int j = 0; j < totalNumBeats; j++)
             audioProcessor.myBlocks[i][j] = false;
 }
@@ -126,13 +133,12 @@ void VocalSynthAudioProcessorEditor::updateVolume()
 
 void VocalSynthAudioProcessorEditor::addBar()
 {
-    auto numNotes = soundGrid.getNumberOfNotes();
-    soundGrid.addBar();
     audioProcessor.numBars++;
     totalNumBeats = audioProcessor.numBars * audioProcessor.beatsPerBar;
-    for (int i = 0; i < 12; i++)
+    soundGrid.addBar();
+    for (int i = 0; i < soundGrid.getNumberOfKeys(); i++)
     {
-        audioProcessor.myBlocks[i].resize(numNotes + 4);
+        audioProcessor.myBlocks[i].resize(totalNumBeats);
     }
     resized();
 }

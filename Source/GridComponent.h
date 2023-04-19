@@ -23,7 +23,7 @@ public:
     void mouseDown(const juce::MouseEvent&) override;
     void mouseUp (const juce::MouseEvent&) override;
     bool getSoundBlocks(int, int);
-    int getNumberOfNotes();
+    int getNumberOfKeys();
     void addBar();
     void setViewPortDimensions(int, int);
     
@@ -33,8 +33,10 @@ public:
     juce::Point<float> lastMousePosition;
     int viewPortHeight;
     int viewPortWidth;
-    std::vector<std::vector<juce::Rectangle<float>>> notes = std::vector<std::vector<juce::Rectangle<float>>>(12, std::vector<juce::Rectangle<float>>(4));
-    std::vector <std::vector<bool>> soundBlocks = std::vector<std::vector<bool>>(12, std::vector<bool>(4, false));
-    std::vector <std::vector<juce::Colour>> gridColors = std::vector<std::vector<juce::Colour>>(12, std::vector<juce::Colour>(4));
+    int numBeats = 4;
+    int numKeys = 12;
+    std::vector<std::vector<juce::Rectangle<float>>> notes = std::vector<std::vector<juce::Rectangle<float>>>(numKeys, std::vector<juce::Rectangle<float>>(numBeats));
+    std::vector <std::vector<bool>> soundBlocks = std::vector<std::vector<bool>>(numKeys, std::vector<bool>(numBeats, false));
+    std::vector <std::vector<juce::Colour>> gridColors = std::vector<std::vector<juce::Colour>>(numKeys, std::vector<juce::Colour>(numBeats));
 };
 
