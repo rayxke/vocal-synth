@@ -99,12 +99,8 @@ void VocalSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     // initialisation that you need..
     midiCollector.reset (sampleRate);
     synth.setCurrentPlaybackSampleRate (sampleRate);
-    //notes.clear();
-    //currentNote = 0;
-    //lastNoteValue = -1;
     time = 0;
     beatCount = 0;
-    mytime = 1;
     rate = static_cast<float> (sampleRate);
 }
 
@@ -160,22 +156,7 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, numSamples);
 
-    //midiCollector.removeNextBlockOfMessages(midiMessages, numSamples);
-
-    
-    /*for (const auto metadata : midiMessages)
-    {
-        const auto msg = metadata.getMessage();
-        auto msgtime = msg.getTimeStamp();
-        //if (msg.getTimeStamp() == mytime)
-        //{
-            if (msg.isNoteOn())  notes.add(msg.getNoteNumber());
-            else if (msg.isNoteOff()) notes2.add(msg.getNoteNumber());
-        //}  
-    }*/
-
-    //midiMessages.clear();
-
+    //Change note after noteDuration
     if ((time + numSamples) >= noteDuration)
     {
         auto offset = juce::jmax(0, juce::jmin((int)(noteDuration - time), numSamples - 1));
@@ -191,17 +172,6 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
                 midiMessages.addEvent(juce::MidiMessage::noteOff(1, i+60), offset);
             }
         }
-        
-        /*for (auto note2 : notes2)
-        {
-            midiMessages.addEvent(juce::MidiMessage::noteOff(1, note2), offset);
-        }
-        notes2.clear();
-        for (auto note : notes)
-        {
-            midiMessages.addEvent(juce::MidiMessage::noteOn(1, note, (juce::uint8)127), offset);
-            notes2.add(note);
-        }*/
         beatCount++;
         beatCount = beatCount % 4;
     }
