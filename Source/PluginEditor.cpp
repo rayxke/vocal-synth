@@ -27,12 +27,11 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addAndMakeVisible(stopButton);
     addAndMakeVisible(recordButton);
     addAndMakeVisible(lyricEditorLabel);
-    addAndMakeVisible(lyricEditorLabel);
     lyricEditorLabel.setText("Lyric Editor:", juce::dontSendNotification);
     lyricEditorLabel.attachToComponent(&lyricEditor, true);
     lyricEditorLabel.setColour(juce::Label::textColourId, juce::Colours::orange);
     lyricEditorLabel.setJustificationType(juce::Justification::right);
-    lyricEditor.setFont(juce::Font(16.0f, juce::Font::bold));
+    lyricEditorLabel.setFont(juce::Font(16.0f, juce::Font::bold));
     addAndMakeVisible(lyricEditor);
     lyricEditor.setEditable(true);
     lyricEditor.setColour(juce::Label::backgroundColourId, juce::Colours::darkblue);
