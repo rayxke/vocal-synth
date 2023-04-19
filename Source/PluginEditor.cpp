@@ -91,7 +91,8 @@ void VocalSynthAudioProcessorEditor::resized()
     keyboardComponent.setKeyWidth(pianoArea.getHeight()/7);
     keyboardComponent.setBounds(pianoArea);
     soundGrid.setBounds(gridArea);
-    viewport.setBounds(gridArea);
+    viewport.setBounds(gridArea.getX(), gridArea.getY(), gridArea.getWidth() * audioProcessor.numBars, gridArea.getHeight());
+    //viewport.setBounds(gridArea);
 
 }
 

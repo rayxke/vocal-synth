@@ -75,8 +75,8 @@ void GridComponent::resized()
     {
         for (int j = 0; j < notes[i].size(); j++) {
             notes[i][j]
-            = juce::Rectangle<float>((j * getWidth() / numNotes), ((11 - i) * getHeight() / 12), getWidth() / numNotes, getHeight() / 12);
-              //juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
+            = juce::Rectangle<float>((j * getWidth() / 4), ((11 - i) * getHeight() / 12), getWidth() / 4, getHeight() / 12);
+            //= juce::Rectangle<float>((j * getWidth() / numNotes), ((11 - i) * getHeight() / 12), getWidth() / numNotes, getHeight() / 12);
         }
     }
     
