@@ -8,14 +8,17 @@
     
 
 GridComponent::GridComponent()
-{    
+{   
+ 
     for (int i = 0; i < 12; i++)
     {
         for (int j = 0; j < 4; j++){
             notes[i][j]
             = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
+            gridColors[i][j] = getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId);
         }
     }
+    
 }
 GridComponent::~GridComponent(){}
 
@@ -46,7 +49,7 @@ void GridComponent::mouseDown (const juce::MouseEvent& e)
             if (notes[i][j].contains(e.position))
             {
                 soundBlocks[i][j] = !soundBlocks[i][j];
-                gridColors[i][j]  = soundBlocks[i][j] ? juce::Colours::blue : juce::Colours::black;
+                gridColors[i][j] = soundBlocks[i][j] ? juce::Colours::blue : getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId);//juce::Colours::backgroundColor;
                 return;
             }
         }
