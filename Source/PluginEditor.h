@@ -37,6 +37,8 @@ private:
     juce::TextButton stopButton {"Stop"};
     juce::TextButton recordButton{ "Record" };
     juce::MidiKeyboardComponent keyboardComponent;
+    juce::Label lyricEditorLabel;
+    juce::Label lyricEditor;
     double startTime;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VocalSynthAudioProcessorEditor)
 };

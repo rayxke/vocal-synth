@@ -16,7 +16,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     
-    setSize (400, 300);
+    setSize (800, 600);
     setResizable(true, true);
     addAndMakeVisible(soundGrid);
     viewport.setViewedComponent(&soundGrid);
@@ -26,6 +26,16 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(recordButton);
+    addAndMakeVisible(lyricEditorLabel);
+    addAndMakeVisible(lyricEditorLabel);
+    lyricEditorLabel.setText("Lyric Editor:", juce::dontSendNotification);
+    lyricEditorLabel.attachToComponent(&lyricEditor, true);
+    lyricEditorLabel.setColour(juce::Label::textColourId, juce::Colours::orange);
+    lyricEditorLabel.setJustificationType(juce::Justification::right);
+    lyricEditor.setFont(juce::Font(16.0f, juce::Font::bold));
+    addAndMakeVisible(lyricEditor);
+    lyricEditor.setEditable(true);
+    lyricEditor.setColour(juce::Label::backgroundColourId, juce::Colours::darkblue);
     keyboardComponent.setAvailableRange(60, 71);
     addAndMakeVisible(keyboardComponent);
 
@@ -70,6 +80,7 @@ void VocalSynthAudioProcessorEditor::resized()
     toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
     toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     toolBarFlexBox.items.add(juce::FlexItem(volumeSlider).withMinWidth(toolBarWidth/6).withMinHeight(toolBarHeight/2));
+    toolBarFlexBox.items.add(juce::FlexItem(lyricEditor).withMinWidth(toolBarWidth / 6).withMinHeight(toolBarHeight / 4));
     toolBarFlexBox.performLayout(toolBarArea);
     
     //Piano & Grid Area
