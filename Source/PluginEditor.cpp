@@ -25,7 +25,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addAndMakeVisible(volumeSlider);
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
-    addAndMakeVisible(recordButton);
+    addAndMakeVisible(addBarButton);
     addAndMakeVisible(lyricEditorLabel);
     lyricEditorLabel.setText("Lyric Editor:", juce::dontSendNotification);
     lyricEditorLabel.attachToComponent(&lyricEditor, true);
@@ -38,9 +38,10 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     keyboardComponent.setAvailableRange(60, 71);
     addAndMakeVisible(keyboardComponent);
 
-    //recordButton.onClick = [this] {record();};
+    
     playButton.onClick = [this] {play();};
     stopButton.onClick = [this] {stop();};
+    addBarButton.onClick = [this] {addBar();};
     volumeSlider.onValueChange = [this] {updateVolume(); };
 
     //Set Volume
@@ -79,7 +80,7 @@ void VocalSynthAudioProcessorEditor::resized()
     toolBarFlexBox.alignContent = juce::FlexBox::AlignContent::spaceAround;
     toolBarFlexBox.flexDirection = juce::FlexBox::Direction::row;
     
-    toolBarFlexBox.items.add(juce::FlexItem(recordButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8)); 
+    toolBarFlexBox.items.add(juce::FlexItem(addBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8)); 
     toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
     toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     toolBarFlexBox.items.add(juce::FlexItem(volumeSlider).withMinWidth(toolBarWidth/6).withMinHeight(toolBarHeight/2));
@@ -98,20 +99,34 @@ void VocalSynthAudioProcessorEditor::play()
 {
     double timerInterval = juce::Time::getMillisecondCounterHiRes() * 0.001 - startTime;
         
-    for (int i = 0; i < 12; i++)
-        for (int j = 0; j < 4; j++)
+    for (int i = 0; i < soundGrid.getNumberOfNotes(); i++)
+        for (int j = 0; j < totalNumBeats; j++)
             audioProcessor.myBlocks[i][j] = soundGrid.getSoundBlocks(i, j);    
 }
 
 
 void VocalSynthAudioProcessorEditor::stop()
 {
+
     for (int i = 0; i < 12; i++)
-        for (int j = 0; j < 4; j++)
+        for (int j = 0; j < totalNumBeats; j++)
             audioProcessor.myBlocks[i][j] = false;
 }
 
 void VocalSynthAudioProcessorEditor::updateVolume()
 {
     audioProcessor.volume = (float) volumeSlider.getValue();
+}
+
+void VocalSynthAudioProcessorEditor::addBar()
+{
+    auto numNotes = soundGrid.getNumberOfNotes();
+    soundGrid.addBar();
+    audioProcessor.numBars++;
+    totalNumBeats = audioProcessor.numBars * audioProcessor.beatsPerBar;
+    for (int i = 0; i < 12; i++)
+    {
+        audioProcessor.myBlocks[i].resize(numNotes + 4);
+    }
+    soundGrid.resized();
 }

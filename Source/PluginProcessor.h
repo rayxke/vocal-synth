@@ -68,6 +68,9 @@ public:
     int time;
     float rate;
     int beatCount = 0;
+    int barCount = 0;
+    int numBars = 1;
+    int beatsPerBar = 4;
     std::vector <std::vector<bool>> myBlocks= std::vector<std::vector<bool>>(12, std::vector<bool>(4, false));;
     float volume;
     float volumeScale;

@@ -70,11 +70,13 @@ void GridComponent::resized()
     auto localWindow = getLocalBounds();
     auto keyboardArea = localWindow.removeFromLeft(getWidth()/5);
     auto gridArea = localWindow.removeFromRight(getWidth()* 4/5);
+    auto numNotes = notes[0].size();
     for (int i = 0; i < notes.size(); i++)
     {
         for (int j = 0; j < notes[i].size(); j++) {
             notes[i][j]
-            = juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
+            = juce::Rectangle<float>((j * getWidth() / numNotes), ((11 - i) * getHeight() / 12), getWidth() / numNotes, getHeight() / 12);
+              //juce::Rectangle<float> ((j * getWidth()/4), ((11-i) * getHeight()/12), getWidth()/4, getHeight()/12);
         }
     }
     
@@ -83,4 +85,20 @@ void GridComponent::resized()
 bool GridComponent::getSoundBlocks(int i, int j)
 {
     return soundBlocks[i][j];
+}
+
+int GridComponent::getNumberOfNotes()
+{
+    return soundBlocks[0].size();
+}
+
+void GridComponent::addBar()
+{
+    auto currentNumBars = soundBlocks[0].size();
+    for (auto i = 0; i < soundBlocks.size(); i++)
+    {
+        soundBlocks[i].resize(currentNumBars + 4);
+        notes[i].resize(currentNumBars + 4);
+        gridColors[i].resize(currentNumBars + 4);
+    }
 }

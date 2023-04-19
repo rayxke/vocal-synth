@@ -162,11 +162,11 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     if ((time + numSamples) >= noteDuration)
     {
         auto offset = juce::jmax(0, juce::jmin((int)(noteDuration - time), numSamples - 1));
-        
+        auto beatNum = 4 * barCount + beatCount;
         for (int i = 0; i < myBlocks.size(); i++)
         {
             auto noteNum = i + 60;
-            if (myBlocks[i][beatCount])
+            if (myBlocks[i][beatNum])
             {
                 midiMessages.addEvent(juce::MidiMessage::noteOn(1, noteNum, (juce::uint8)127), offset);
             }
@@ -176,7 +176,13 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             }
         }
         beatCount++;
+        if (((beatCount%4) == 0) && (beatCount > 0))
+        {
+            barCount++;
+            barCount = barCount % numBars;
+        }
         beatCount = beatCount % 4;
+        
     }
 
     time = (time + numSamples) % noteDuration;

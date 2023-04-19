@@ -25,6 +25,7 @@ public:
     void resized() override;
     void play();
     void stop();
+    void addBar();
     void updateVolume();
 
 private:
@@ -36,10 +37,11 @@ private:
     juce::Slider volumeSlider;
     juce::TextButton playButton {"Play"};
     juce::TextButton stopButton {"Stop"};
-    juce::TextButton recordButton{ "Record" };
+    juce::TextButton addBarButton{ "Add Bar" };
     juce::MidiKeyboardComponent keyboardComponent;
     juce::Label lyricEditorLabel;
     juce::Label lyricEditor;
     double startTime;
+    int totalNumBeats = 4;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VocalSynthAudioProcessorEditor)
 };
