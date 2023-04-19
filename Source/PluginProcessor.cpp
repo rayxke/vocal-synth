@@ -144,7 +144,6 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     auto numSamples = buffer.getNumSamples();
-    volumeScale = 2.0f * volume;
 
     // get note duration
     auto noteDuration = static_cast<int> (std::ceil(rate * 0.25f * (0.1f + (1.0f))));
@@ -201,11 +200,6 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
         for (auto sample = 0; sample < numSamples; ++sample)
             channelData[sample] = channelData[sample] * volume;
     }
-    //auto numEvents = midiSequence.getNumEvents();
-    //for (auto event = 0;  event<numEvents; event++)
-    //    midiCollector.addMessageToQueue(output.getMessage());
-    //keyboardState.processNextMidiBuffer (midiMessages, 0, numSamples, true);
-    
 }
 
 //==============================================================================

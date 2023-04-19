@@ -20,9 +20,11 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     setResizable(true, true);
     //addAndMakeVisible(soundGrid);
     viewport.setViewedComponent(&soundGrid);
+    soundGrid.setViewPortDimensions(viewport.getHeight(), viewport.getWidth());
     addAndMakeVisible(viewport);
     volumeSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(volumeSlider);
+    volumeSlider.setValue (volumeSlider.getMaximum());
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(addBarButton);
@@ -91,10 +93,11 @@ void VocalSynthAudioProcessorEditor::resized()
     keyboardComponent.setKeyWidth(pianoArea.getHeight()/7);
     keyboardComponent.setBounds(pianoArea);
     //soundGrid.setBounds(gridArea);
-    soundGrid.setBounds(gridArea.getX(), gridArea.getY(), gridArea.getWidth() * audioProcessor.numBars, gridArea.getHeight());
-    //viewport.setBounds(gridArea.getX(), gridArea.getY(), gridArea.getWidth() * audioProcessor.numBars, gridArea.getHeight());
     viewport.setBounds(gridArea);
     soundGrid.setViewPortDimensions(viewport.getHeight(), viewport.getWidth());
+    soundGrid.setBounds(gridArea.getX(), gridArea.getY(), gridArea.getWidth() * audioProcessor.numBars, gridArea.getHeight());
+    //viewport.setBounds(gridArea.getX(), gridArea.getY(), gridArea.getWidth() * audioProcessor.numBars, gridArea.getHeight());
+    
 
 }
 
