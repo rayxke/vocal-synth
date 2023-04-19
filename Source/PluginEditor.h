@@ -25,6 +25,7 @@ public:
     void resized() override;
     void play();
     void stop();
+    void updateVolume();
 
 private:
     // This reference is provided as a quick way for your editor to

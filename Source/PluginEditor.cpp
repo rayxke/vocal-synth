@@ -40,7 +40,11 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
 
     //recordButton.onClick = [this] {record();};
     playButton.onClick = [this] {play();};
-    stopButton.onClick = [this] {stop();};   
+    stopButton.onClick = [this] {stop();};
+    volumeSlider.onValueChange = [this] {updateVolume(); };
+
+    //Set Volume
+    audioProcessor.volume = (float) volumeSlider.getValue();
 }
 
 VocalSynthAudioProcessorEditor::~VocalSynthAudioProcessorEditor()
@@ -87,6 +91,7 @@ void VocalSynthAudioProcessorEditor::resized()
     keyboardComponent.setBounds(pianoArea);
     soundGrid.setBounds(gridArea);
     viewport.setBounds(gridArea);
+
 }
 
 void VocalSynthAudioProcessorEditor::play()
@@ -104,4 +109,9 @@ void VocalSynthAudioProcessorEditor::stop()
     for (int i = 0; i < 12; i++)
         for (int j = 0; j < 4; j++)
             audioProcessor.myBlocks[i][j] = false;
+}
+
+void VocalSynthAudioProcessorEditor::updateVolume()
+{
+    audioProcessor.volume = (float) volumeSlider.getValue();
 }

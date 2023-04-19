@@ -69,6 +69,8 @@ public:
     float rate;
     int beatCount = 0;
     bool myBlocks[12][4] = {false};
+    float volume;
+    float volumeScale;
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VocalSynthAudioProcessor)

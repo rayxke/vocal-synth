@@ -101,6 +101,7 @@ void VocalSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     synth.setCurrentPlaybackSampleRate (sampleRate);
     time = 0;
     beatCount = 0;
+    volume = 100.0f;
     rate = static_cast<float> (sampleRate);
 }
 
@@ -143,6 +144,7 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     auto numSamples = buffer.getNumSamples();
+    volumeScale = 2.0f * volume;
 
     // get note duration
     auto noteDuration = static_cast<int> (std::ceil(rate * 0.25f * (0.1f + (1.0f))));
@@ -178,6 +180,7 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
 
     time = (time + numSamples) % noteDuration;
 
+    synth.renderNextBlock(buffer, midiMessages, 0, numSamples);
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -188,12 +191,14 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
+        for (auto sample = 0; sample < numSamples; ++sample)
+            channelData[sample] = channelData[sample] * volumeScale - volume;
     }
     //auto numEvents = midiSequence.getNumEvents();
     //for (auto event = 0;  event<numEvents; event++)
     //    midiCollector.addMessageToQueue(output.getMessage());
     //keyboardState.processNextMidiBuffer (midiMessages, 0, numSamples, true);
-    synth.renderNextBlock (buffer, midiMessages, 0, numSamples);
+    
 }
 
 //==============================================================================
