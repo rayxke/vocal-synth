@@ -192,7 +192,7 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     {
         auto* channelData = buffer.getWritePointer (channel);
         for (auto sample = 0; sample < numSamples; ++sample)
-            channelData[sample] = channelData[sample] * volumeScale - volume;
+            channelData[sample] = channelData[sample] * volume;
     }
     //auto numEvents = midiSequence.getNumEvents();
     //for (auto event = 0;  event<numEvents; event++)
