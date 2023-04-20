@@ -22,10 +22,9 @@
 inline juce::StringArray findPhoneme(const juce::String w)
 {   
     juce::StringArray tokens;
-    juce::File fileToRead(juce::File::getCurrentWorkingDirectory().getParentDirectory().getParentDirectory().getChildFile("Assets").getChildFile("cmudict.txt"));
-    auto path = fileToRead.getFullPathName();
-    bool doesexist = !fileToRead.exists();
-    //juce::File fileToRead(juce::File("/Assets/cmudict.0.7.a.txt"));
+    juce::File fileToRead(juce::File::getSpecialLocation(juce::File::currentApplicationFile).getParentDirectory().getParentDirectory().getParentDirectory().getParentDirectory().getParentDirectory().getChildFile("Assets").getChildFile("cmudict.txt"));
+    auto path = juce::File::getSpecialLocation(juce::File::currentApplicationFile);//fileToRead.getFullPathName();
+
     if (!fileToRead.existsAsFile())
     {
         tokens.add("file doesn't exist");
