@@ -4,6 +4,7 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="C3awpm" name="VocalSynth">
     <GROUP id="{A5DE618D-6A33-74CC-92E5-F60D1DF84394}" name="Source">
+      <FILE id="uMsGDY" name="Phonemes.h" compile="0" resource="0" file="Source/Phonemes.h"/>
       <FILE id="KaGgOF" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="jGpszh" name="PluginProcessor.h" compile="0" resource="0"
@@ -17,6 +18,7 @@
       <FILE id="ho45CJ" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
     <GROUP id="{7C67174E-C0A8-589C-2EAF-A474651F2862}" name="Assets">
+      <FILE id="kmdPhH" name="cmudict.txt" compile="0" resource="1" file="Assets/cmudict.txt"/>
       <GROUP id="{4F70E7E7-4FF7-F003-0688-FA43CBC1703E}" name="phonemes">
         <FILE id="pAUVk8" name="phoneme-b.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-b.wav"
               xcodeResource="0"/>
