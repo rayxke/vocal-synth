@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "GridComponent.h"
+#include "Phonemes.h"
 //==============================================================================
 /**
 */
@@ -26,6 +27,7 @@ public:
     void play();
     void stop();
     void addBar();
+    void convertToPhoneme();
     void updateVolume();
 
 private:
@@ -38,6 +40,7 @@ private:
     juce::TextButton playButton {"Play"};
     juce::TextButton stopButton {"Stop"};
     juce::TextButton addBarButton{ "Add Bar" };
+    juce::TextButton convertButton{ "Convert" };
     juce::MidiKeyboardComponent keyboardComponent;
     juce::Label lyricEditorLabel;
     juce::Label lyricEditor;

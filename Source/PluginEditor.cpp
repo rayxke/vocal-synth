@@ -31,6 +31,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(addBarButton);
+    addAndMakeVisible(convertButton);
     
     //Lyric Editor Button
     addAndMakeVisible(lyricEditorLabel);
@@ -51,6 +52,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     playButton.onClick = [this] {play();};
     stopButton.onClick = [this] {stop();};
     addBarButton.onClick = [this] {addBar();};
+    convertButton.onClick = [this] {convertToPhoneme(); };
     volumeSlider.onValueChange = [this] {updateVolume(); };
 
     //Set Volume
@@ -92,6 +94,7 @@ void VocalSynthAudioProcessorEditor::resized()
     toolBarFlexBox.items.add(juce::FlexItem(addBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8)); 
     toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
     toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    toolBarFlexBox.items.add(juce::FlexItem(convertButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     toolBarFlexBox.items.add(juce::FlexItem(volumeSlider).withMinWidth(toolBarWidth/6).withMinHeight(toolBarHeight/2));
     toolBarFlexBox.items.add(juce::FlexItem(lyricEditor).withMinWidth(toolBarWidth / 6).withMinHeight(toolBarHeight / 4));
     toolBarFlexBox.performLayout(toolBarArea);
@@ -141,4 +144,10 @@ void VocalSynthAudioProcessorEditor::addBar()
         audioProcessor.myBlocks[i].resize(totalNumBeats);
     }
     resized();
+}
+
+void VocalSynthAudioProcessorEditor::convertToPhoneme()
+{
+    auto phonemes = findPhoneme(lyricEditor.getText());
+    lyricEditor.setText(phonemes.joinIntoString(""), juce::dontSendNotification);
 }
