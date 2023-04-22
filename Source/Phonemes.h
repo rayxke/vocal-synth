@@ -22,36 +22,24 @@
 inline juce::StringArray findPhoneme(const juce::String w)
 {   
     juce::StringArray tokens;
-    juce::File fileToRead(juce::File::getSpecialLocation(juce::File::currentApplicationFile).getParentDirectory().getParentDirectory().getParentDirectory().getParentDirectory().getParentDirectory().getChildFile("Assets").getChildFile("cmudict.txt"));
-    auto path = juce::File::getSpecialLocation(juce::File::currentApplicationFile);//fileToRead.getFullPathName();
+    
+    juce::MemoryInputStream* inputStream = new juce::MemoryInputStream (BinaryData::cmudict_txt, BinaryData::cmudict_txtSize, false);
 
-    if (!fileToRead.existsAsFile())
-    {
-        tokens.add("file doesn't exist");
-        return tokens;  // file doesn't exist
-    }
-
-    juce::FileInputStream inputStream(fileToRead); // [2]
-
-    if (!inputStream.openedOk())
-    {
-        tokens.add("failed to open");
-        return tokens;  // failed to open
-    }
-
-    juce::String word; //dictonary search declarations
     std::vector<juce::String> phonemes;
-    while (!inputStream.isExhausted()) // [3]
+    
+    while (!inputStream->isExhausted())
     {
-        auto search = inputStream.readNextLine();
+        auto search = inputStream->readNextLine();
         juce::StringArray phonemes;
         phonemes.addTokens(search, " ", "\"");
         if (w == phonemes[0])
         {
             phonemes.remove(0);
+            delete inputStream;
             return phonemes;
         }
     }
+    delete inputStream;
     tokens.add("Word not found");
     return tokens;
 }
