@@ -23,7 +23,7 @@ inline juce::StringArray findPhoneme(const juce::String w)
 {   
     juce::StringArray tokens;
     
-    juce::MemoryInputStream* inputStream = new juce::MemoryInputStream (BinaryData::cmudict_txt, BinaryData::cmudict_txtSize, false);
+    std::unique_ptr<juce::MemoryInputStream> inputStream = std::make_unique<juce::MemoryInputStream> (BinaryData::cmudict_txt, BinaryData::cmudict_txtSize, false);
 
     std::vector<juce::String> phonemes;
     
@@ -32,14 +32,12 @@ inline juce::StringArray findPhoneme(const juce::String w)
         auto search = inputStream->readNextLine();
         juce::StringArray phonemes;
         phonemes.addTokens(search, " ", "\"");
-        if (w == phonemes[0])
+        if (w.compareIgnoreCase(phonemes[0]) == 0)
         {
             phonemes.remove(0);
-            delete inputStream;
             return phonemes;
         }
     }
-    delete inputStream;
     tokens.add("Word not found");
     return tokens;
 }
