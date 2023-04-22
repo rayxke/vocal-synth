@@ -20,7 +20,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     setResizable(true, true);
     
     //Set Up SoundGrid & ViewPort
-    viewport.setViewedComponent(&soundGrid);
+    viewport.setViewedComponent(&soundGrid, false);
     soundGrid.setViewPortDimensions(viewport.getHeight(), viewport.getWidth());
     addAndMakeVisible(viewport);
     
