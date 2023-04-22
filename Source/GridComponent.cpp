@@ -15,6 +15,7 @@ GridComponent::GridComponent()
             notes[i][j]
             = juce::Rectangle<float> ((j * getWidth()/4), ((numKeys-1-i) * getHeight()/numKeys), getWidth()/4, getHeight()/numKeys);
             gridColors[i][j] = getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId);
+            phonemes[i][j] = "";
         }
     }
     
@@ -33,7 +34,7 @@ void GridComponent::paint(juce::Graphics &g){
             g.fillRect(notes[i][j]);
             g.setColour(juce::Colours::white);
             g.drawRect(notes[i][j]);
-            g.drawText(std::to_string(i), notes[i][j], juce::Justification::left);
+            g.drawText(phonemes[i][j], notes[i][j], juce::Justification::left);
         }
     }
 }
@@ -92,6 +93,7 @@ void GridComponent::addBar()
         soundBlocks[i].resize(numBeats);
         notes[i].resize(numBeats);
         gridColors[i].resize(numBeats);
+        phonemes[i].resize(numBeats);
     }
 }
 
@@ -99,4 +101,35 @@ void GridComponent::setViewPortDimensions(int height, int width)
 {
     viewPortHeight = height;
     viewPortWidth = width;
+}
+
+void GridComponent::setPhonemes(juce::StringArray phonemeArray)
+{
+    int count = 0;
+    bool phonemeSet = false;
+    
+    //do a check for phoneme Array has phonemes
+    
+    for (int j = 0; j < numBeats; j++)
+    {
+        for (int i = 0; i < numKeys; i++)
+        {
+            if (soundBlocks[i][j])
+            {
+                phonemes[i][j]
+                = phonemeArray[count];
+                phonemeSet = true;
+            }
+            else
+            {
+                phonemes[i][j] = "";
+            }
+        }
+        if (phonemeSet)
+        {
+            count++;
+            phonemeSet = false;
+        }
+    }
+    repaint();
 }

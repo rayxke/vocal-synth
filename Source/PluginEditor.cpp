@@ -149,5 +149,6 @@ void VocalSynthAudioProcessorEditor::addBar()
 void VocalSynthAudioProcessorEditor::convertToPhoneme()
 {
     auto phonemes = findPhoneme(lyricEditor.getText());
+    soundGrid.setPhonemes(phonemes);
     lyricEditor.setText(phonemes.joinIntoString(""), juce::dontSendNotification);
 }

@@ -26,6 +26,7 @@ public:
     int getNumberOfKeys();
     void addBar();
     void setViewPortDimensions(int, int);
+    void setPhonemes(juce::StringArray);
     
     
     
@@ -35,6 +36,7 @@ public:
     int viewPortWidth;
     int numBeats = 4;
     int numKeys = 12;
+    std::vector<std::vector<juce::String>> phonemes = std::vector<std::vector<juce::String>>(numKeys, std::vector<juce::String>(numBeats));
     std::vector<std::vector<juce::Rectangle<float>>> notes = std::vector<std::vector<juce::Rectangle<float>>>(numKeys, std::vector<juce::Rectangle<float>>(numBeats));
     std::vector <std::vector<bool>> soundBlocks = std::vector<std::vector<bool>>(numKeys, std::vector<bool>(numBeats, false));
     std::vector <std::vector<juce::Colour>> gridColors = std::vector<std::vector<juce::Colour>>(numKeys, std::vector<juce::Colour>(numBeats));

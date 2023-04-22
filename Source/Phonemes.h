@@ -35,6 +35,7 @@ inline juce::StringArray findPhoneme(const juce::String w)
         if (w.compareIgnoreCase(phonemes[0]) == 0)
         {
             phonemes.remove(0);
+            phonemes.removeEmptyStrings();
             return phonemes;
         }
     }
