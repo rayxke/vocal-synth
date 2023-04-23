@@ -25,6 +25,7 @@ public:
     bool getSoundBlocks(int, int);
     int getNumberOfKeys();
     void addBar();
+    void removeBar();
     void setViewPortDimensions(int, int);
     void setPhonemes(juce::StringArray);
     

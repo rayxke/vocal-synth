@@ -27,6 +27,7 @@ public:
     void play();
     void stop();
     void addBar();
+    void removeBar();
     void convertToPhoneme();
     void updateVolume();
 
@@ -39,7 +40,8 @@ private:
     juce::Slider volumeSlider;
     juce::TextButton playButton {"Play"};
     juce::TextButton stopButton {"Stop"};
-    juce::TextButton addBarButton{ "Add Bar" };
+    juce::TextButton addBarButton{ "+" };
+    juce::TextButton removeBarButton{ "-" };
     juce::TextButton convertButton{ "Convert" };
     juce::MidiKeyboardComponent keyboardComponent;
     juce::Label lyricEditorLabel;

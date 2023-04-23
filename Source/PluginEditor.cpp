@@ -31,6 +31,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(addBarButton);
+    addAndMakeVisible(removeBarButton);
     addAndMakeVisible(convertButton);
     
     //Lyric Editor Button
@@ -48,10 +49,11 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     keyboardComponent.setAvailableRange(60, 71);
     addAndMakeVisible(keyboardComponent);
 
-    
+    //Click Functions
     playButton.onClick = [this] {play();};
     stopButton.onClick = [this] {stop();};
     addBarButton.onClick = [this] {addBar();};
+    removeBarButton.onClick = [this] {removeBar();};
     convertButton.onClick = [this] {convertToPhoneme(); };
     volumeSlider.onValueChange = [this] {updateVolume(); };
 
@@ -91,7 +93,8 @@ void VocalSynthAudioProcessorEditor::resized()
     toolBarFlexBox.alignContent = juce::FlexBox::AlignContent::spaceAround;
     toolBarFlexBox.flexDirection = juce::FlexBox::Direction::row;
     
-    toolBarFlexBox.items.add(juce::FlexItem(addBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8)); 
+    toolBarFlexBox.items.add(juce::FlexItem(addBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    toolBarFlexBox.items.add(juce::FlexItem(removeBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
     toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     toolBarFlexBox.items.add(juce::FlexItem(convertButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
@@ -142,6 +145,24 @@ void VocalSynthAudioProcessorEditor::addBar()
     for (int i = 0; i < soundGrid.getNumberOfKeys(); i++)
     {
         audioProcessor.myBlocks[i].resize(totalNumBeats);
+        audioProcessor.myPhonemes[i].resize(totalNumBeats);
+    }
+    resized();
+}
+
+void VocalSynthAudioProcessorEditor::removeBar()
+{
+    if (audioProcessor.numBars == 1)
+    {
+        return;
+    }
+    audioProcessor.numBars--;
+    totalNumBeats = audioProcessor.numBars * audioProcessor.beatsPerBar;
+    soundGrid.removeBar();
+    for (int i = 0; i < soundGrid.getNumberOfKeys(); i++)
+    {
+        audioProcessor.myBlocks[i].resize(totalNumBeats);
+        audioProcessor.myPhonemes[i].resize(totalNumBeats);
     }
     resized();
 }
