@@ -13,7 +13,7 @@ GridComponent::GridComponent()
     {
         for (int j = 0; j < numBeats; j++){
             notes[i][j]
-            = juce::Rectangle<float> ((j * getWidth()/4), ((numKeys-1-i) * getHeight()/numKeys), getWidth()/4, getHeight()/numKeys);
+            = juce::Rectangle<float> ((j * getWidth()/8), ((numKeys-1-i) * getHeight()/numKeys), getWidth()/8, getHeight()/numKeys);
             gridColors[i][j] = getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId);
             phonemes[i][j] = "";
         }
@@ -70,7 +70,7 @@ void GridComponent::resized()
     {
         for (int j = 0; j < numBeats; j++) {
             notes[i][j]
-            = juce::Rectangle<float>((j * viewPortWidth / 4), ((numKeys-1 - i) * viewPortHeight / numKeys), viewPortWidth / 4, viewPortHeight / numKeys);
+            = juce::Rectangle<float>((j * viewPortWidth / 8), ((numKeys-1 - i) * viewPortHeight / numKeys), viewPortWidth / 8, viewPortHeight / numKeys);
         }
     }
     
