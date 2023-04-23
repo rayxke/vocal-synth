@@ -19,21 +19,54 @@
     </GROUP>
     <GROUP id="{7C67174E-C0A8-589C-2EAF-A474651F2862}" name="Assets">
       <FILE id="kmdPhH" name="cmudict.txt" compile="0" resource="1" file="Assets/cmudict.txt"/>
-      <GROUP id="{4F70E7E7-4FF7-F003-0688-FA43CBC1703E}" name="phonemes">
-        <FILE id="pAUVk8" name="phoneme-b.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-b.wav"
-              xcodeResource="0"/>
-        <FILE id="tmNHxX" name="phoneme-d.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-d.wav"
-              xcodeResource="0"/>
-        <FILE id="snC3bW" name="phoneme-f.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-f.wav"
-              xcodeResource="0"/>
+      <GROUP id="{44A635C2-ECF8-25FA-681B-009D5DEB21BD}" name="phonemes">
+        <FILE id="KuzfLD" name="phoneme-aa.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-aa.wav"/>
+        <FILE id="wVK0iw" name="phoneme-ae.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-ae.wav"/>
+        <FILE id="ej2JVK" name="phoneme-ah.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-ah.wav"/>
+        <FILE id="hz2pJw" name="phoneme-ao.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-ao.wav"/>
+        <FILE id="rr7kbs" name="phoneme-aw.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-aw.wav"/>
+        <FILE id="AJkjhK" name="phoneme-ay.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-ay.wav"/>
+        <FILE id="niUacw" name="phoneme-b.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-b.wav"/>
+        <FILE id="yD7gwN" name="phoneme-ch.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-ch.wav"/>
+        <FILE id="nuc6yP" name="phoneme-d.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-d.wav"/>
+        <FILE id="HH6O76" name="phoneme-dh.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-dh.wav"/>
+        <FILE id="zsIW7h" name="phoneme-eh.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-eh.wav"/>
+        <FILE id="VAIZl8" name="phoneme-er.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-er.wav"/>
+        <FILE id="xB8ncD" name="phoneme-ey.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-ey.wav"/>
+        <FILE id="L8m5Tc" name="phoneme-f.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-f.wav"/>
+        <FILE id="HAqQv8" name="phoneme-g.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-g.wav"/>
+        <FILE id="GSu7Qw" name="phoneme-hh.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-hh.wav"/>
+        <FILE id="cmDzS2" name="phoneme-ih.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-ih.wav"/>
+        <FILE id="Ia5eVt" name="phoneme-iy.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-iy.wav"/>
+        <FILE id="uRgxyn" name="phoneme-jh.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-jh.wav"/>
+        <FILE id="uLWuh1" name="phoneme-k.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-k.wav"/>
+        <FILE id="QEkziZ" name="phoneme-l.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-l.wav"/>
+        <FILE id="i7nQcj" name="phoneme-m.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-m.wav"/>
+        <FILE id="PflKaZ" name="phoneme-n.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-n.wav"/>
+        <FILE id="jx1Oks" name="phoneme-ng.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-ng.wav"/>
+        <FILE id="efT9Pk" name="phoneme-ow.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-ow.wav"/>
+        <FILE id="OTkKy7" name="phoneme-oy.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-oy.wav"/>
+        <FILE id="gYzIsp" name="phoneme-p.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-p.wav"/>
+        <FILE id="DFDmFi" name="phoneme-r.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-r.wav"/>
+        <FILE id="jX2E5z" name="phoneme-s.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-s.wav"/>
+        <FILE id="nNj590" name="phoneme-sh.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-sh.wav"/>
+        <FILE id="zHpEHV" name="phoneme-t.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-t.wav"/>
+        <FILE id="LhHkzG" name="phoneme-th.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-th.wav"/>
+        <FILE id="yPB5ad" name="phoneme-uh.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-uh.wav"/>
+        <FILE id="GQVkgm" name="phoneme-uw.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-uw.wav"/>
+        <FILE id="iOCw2K" name="phoneme-v.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-v.wav"/>
+        <FILE id="kflhcL" name="phoneme-w.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-w.wav"/>
+        <FILE id="S07kjo" name="phoneme-y.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-y.wav"/>
+        <FILE id="yer38u" name="phoneme-z.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-z.wav"/>
+        <FILE id="OlqRpI" name="phoneme-zh.wav" compile="0" resource="1" file="Assets/phonemes/phoneme-zh.wav"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>
-    <XCODE_IPHONE targetFolder="Builds/iOS">
+    <XCODE_IPHONE targetFolder="Builds/iOS" microphonePermissionNeeded="1">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="VocalSynth"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="VocalSynth" codeSigningIdentity="Apple Development"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="VocalSynth"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
