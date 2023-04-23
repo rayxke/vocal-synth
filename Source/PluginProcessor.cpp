@@ -164,7 +164,7 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
         auto beatNum = 4 * barCount + beatCount;
         for (int i = 0; i < myBlocks.size(); i++)
         {
-            auto noteNum = i + 60;
+            auto noteNum = i + 72;
             if (myBlocks[i][beatNum])
             {
                 midiMessages.addEvent(juce::MidiMessage::noteOn(1, noteNum, (juce::uint8)127), offset);
@@ -238,8 +238,8 @@ void VocalSynthAudioProcessor::initialiseSynth()
         synth.addVoice (new juce::SamplerVoice());
     }
 
-    setUsingSineWaveSound();
-    //setUsingSampledSound(2);
+    //setUsingSineWaveSound();
+    //setUsingSampledSound();
 }
 
 void VocalSynthAudioProcessor::setUsingSineWaveSound()
