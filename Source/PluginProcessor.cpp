@@ -168,6 +168,8 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             if (myBlocks[i][beatNum])
             {
                 midiMessages.addEvent(juce::MidiMessage::noteOn(1, noteNum, (juce::uint8)127), offset);
+                auto temp = myPhonemes[i][beatNum];
+                setUsingSampledSound(phonemeMap[myPhonemes[i][beatNum]]);
             }
             else
             {
@@ -252,43 +254,232 @@ void VocalSynthAudioProcessor::setUsingSampledSound(int phonemeId)
 {
     juce::WavAudioFormat wavFormat;
     juce::MemoryInputStream* input;
+    bool useSin = false;
     switch(phonemeId)
     {
+        case 1:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeaa_wav, BinaryData::phonemeaa_wavSize, false);
+            break;
+        }
         case 2:
         {
-            input = new juce::MemoryInputStream (BinaryData::phonemeb_wav, BinaryData::phonemeb_wavSize, false);
+            input = new juce::MemoryInputStream (BinaryData::phonemeae_wav, BinaryData::phonemeae_wavSize, false);
             break;
         }
         case 3:
         {
-            input = new juce::MemoryInputStream (BinaryData::phonemed_wav, BinaryData::phonemed_wavSize, false);
+            input = new juce::MemoryInputStream (BinaryData::phonemeah_wav, BinaryData::phonemeah_wavSize, false);
             break;
         }
         case 4:
         {
-            input = new juce::MemoryInputStream (BinaryData::phonemef_wav, BinaryData::phonemef_wavSize, false);
+            input = new juce::MemoryInputStream (BinaryData::phonemeao_wav, BinaryData::phonemeao_wavSize, false);
             break;
         }
-        default:
+        case 5:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeaw_wav, BinaryData::phonemeaw_wavSize, false);
+            break;
+        }
+        case 6:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeay_wav, BinaryData::phonemeay_wavSize, false);
+            break;
+        }
+        case 7:
         {
             input = new juce::MemoryInputStream (BinaryData::phonemeb_wav, BinaryData::phonemeb_wavSize, false);
             break;
         }
+        case 8:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemech_wav, BinaryData::phonemech_wavSize, false);
+            break;
+        }
+        case 9:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemed_wav, BinaryData::phonemed_wavSize, false);
+            break;
+        }
+        case 10:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemedh_wav, BinaryData::phonemedh_wavSize, false);
+            break;
+        }
+        case 11:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeeh_wav, BinaryData::phonemeeh_wavSize, false);
+            break;
+        }
+        case 12:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeer_wav, BinaryData::phonemeer_wavSize, false);
+            break;
+        }
+        case 13:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeey_wav, BinaryData::phonemeey_wavSize, false);
+            break;
+        }
+        case 14:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemef_wav, BinaryData::phonemef_wavSize, false);
+            break;
+        }
+        case 15:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeg_wav, BinaryData::phonemeg_wavSize, false);
+            break;
+        }
+        case 16:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemehh_wav, BinaryData::phonemehh_wavSize, false);
+            break;
+        }
+        case 17:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeih_wav, BinaryData::phonemeih_wavSize, false);
+            break;
+        }
+        case 18:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeiy_wav, BinaryData::phonemeiy_wavSize, false);
+            break;
+        }
+        case 19:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemejh_wav, BinaryData::phonemejh_wavSize, false);
+            break;
+        }
+        case 20:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemek_wav, BinaryData::phonemek_wavSize, false);
+            break;
+        }
+        case 21:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemel_wav, BinaryData::phonemel_wavSize, false);
+            break;
+        }
+        case 22:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemem_wav, BinaryData::phonemem_wavSize, false);
+            break;
+        }
+        case 23:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemen_wav, BinaryData::phonemen_wavSize, false);
+            break;
+        }
+        case 24:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeng_wav, BinaryData::phonemeng_wavSize, false);
+            break;
+        }
+        case 25:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeow_wav, BinaryData::phonemeow_wavSize, false);
+            break;
+        }
+        case 26:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeoy_wav, BinaryData::phonemeoy_wavSize, false);
+            break;
+        }
+        case 27:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemep_wav, BinaryData::phonemep_wavSize, false);
+            break;
+        }
+        case 28:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemer_wav, BinaryData::phonemer_wavSize, false);
+            break;
+        }
+        case 29:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemes_wav, BinaryData::phonemes_wavSize, false);
+            break;
+        }
+        case 30:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemesh_wav, BinaryData::phonemesh_wavSize, false);
+            break;
+        }
+        case 31:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemet_wav, BinaryData::phonemet_wavSize, false);
+            break;
+        }
+        case 32:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeth_wav, BinaryData::phonemeth_wavSize, false);
+            break;
+        }
+        case 33:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeuh_wav, BinaryData::phonemeuh_wavSize, false);
+            break;
+        }
+        case 34:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemeuw_wav, BinaryData::phonemeuw_wavSize, false);
+            break;
+        }
+        case 35:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemev_wav, BinaryData::phonemev_wavSize, false);
+            break;
+        }
+        case 36:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemew_wav, BinaryData::phonemew_wavSize, false);
+            break;
+        }
+        case 37:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemey_wav, BinaryData::phonemey_wavSize, false);
+            break;
+        }
+        case 38:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemez_wav, BinaryData::phonemez_wavSize, false);
+            break;
+        }
+        case 39:
+        {
+            input = new juce::MemoryInputStream (BinaryData::phonemezh_wav, BinaryData::phonemezh_wavSize, false);
+            break;
+        }
+        default:
+        {
+            input = NULL;
+            useSin = true;
+            break;
+        }
     }
-    std::unique_ptr<juce::AudioFormatReader> audioReader (wavFormat.createReaderFor (input, true));
+    if (!useSin)
+    {
+        std::unique_ptr<juce::AudioFormatReader> audioReader (wavFormat.createReaderFor (input, true));
 
-    juce::BigInteger allNotes;
-    allNotes.setRange (0, 128, true);
+        juce::BigInteger allNotes;
+        allNotes.setRange (0, 128, true);
 
-    synth.clearSounds();
-    synth.addSound (new juce::SamplerSound ("demo sound",
-                                      *audioReader,
-                                      allNotes,
-                                      74,   // root midi note
-                                      0.1,  // attack time
-                                      0.1,  // release time
-                                      10.0  // maximum sample length
-                                      ));
+        synth.clearSounds();
+        synth.addSound (new juce::SamplerSound ("demo sound",
+                                          *audioReader,
+                                          allNotes,
+                                          74,   // root midi note
+                                          0.1,  // attack time
+                                          0.1,  // release time
+                                          10.0  // maximum sample length
+                                                ));
+    }
+    else
+    {
+        setUsingSineWaveSound();
+    }
 }
 //==============================================================================
 // This creates new instances of the plugin..
