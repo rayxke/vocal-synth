@@ -29,6 +29,9 @@ public:
     void removeBar();
     void setViewPortDimensions(int, int);
     void setPhonemes(juce::StringArray);
+    void clearPhonemes();
+    void clearSoundBlocks();
+    
     
     
     

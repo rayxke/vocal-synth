@@ -81,6 +81,18 @@ bool GridComponent::getSoundBlocks(int i, int j)
     return soundBlocks[i][j];
 }
 
+void GridComponent::clearSoundBlocks()
+{
+    for (int i = 0; i < numKeys; i++)
+    {
+        for (int j = 0; j < numBeats; j++) {
+            soundBlocks[i][j] = false;
+            gridColors[i][j] = getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId);
+        }
+    }
+    repaint();
+}
+
 int GridComponent::getNumberOfKeys()
 {
     return numKeys;
@@ -115,7 +127,17 @@ void GridComponent::setViewPortDimensions(int height, int width)
     viewPortHeight = height;
     viewPortWidth = width;
 }
-
+void GridComponent::clearPhonemes()
+{
+    for (int j = 0; j < numBeats; j++)
+    {
+        for (int i = 0; i < numKeys; i++)
+        {
+                phonemes[i][j] = "";
+        }
+    }
+    repaint();
+}
 void GridComponent::setPhonemes(juce::StringArray phonemeArray)
 {
     int count = 0;

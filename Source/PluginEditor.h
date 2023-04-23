@@ -29,6 +29,8 @@ public:
     void addBar();
     void removeBar();
     void convertToPhoneme();
+    void clearPhonemes();
+    void reset();
     void updateVolume();
 
 private:
@@ -43,6 +45,8 @@ private:
     juce::TextButton addBarButton{ "+" };
     juce::TextButton removeBarButton{ "-" };
     juce::TextButton convertButton{ "Convert" };
+    juce::TextButton clearButton{ "Clear" };
+    juce::TextButton resetButton{ "Reset" };
     juce::MidiKeyboardComponent keyboardComponent;
     juce::Label lyricEditorLabel;
     juce::Label lyricEditor;

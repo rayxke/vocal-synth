@@ -33,6 +33,8 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addAndMakeVisible(addBarButton);
     addAndMakeVisible(removeBarButton);
     addAndMakeVisible(convertButton);
+    addAndMakeVisible(clearButton);
+    addAndMakeVisible(resetButton);
     
     //Lyric Editor Button
     addAndMakeVisible(lyricEditorLabel);
@@ -55,6 +57,8 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addBarButton.onClick = [this] {addBar();};
     removeBarButton.onClick = [this] {removeBar();};
     convertButton.onClick = [this] {convertToPhoneme(); };
+    clearButton.onClick = [this] {clearPhonemes(); };
+    resetButton.onClick = [this] {reset(); };
     volumeSlider.onValueChange = [this] {updateVolume(); };
 
     //Set Volume
@@ -76,15 +80,16 @@ void VocalSynthAudioProcessorEditor::resized()
 {
     //Set Bounding Areas
     auto windowBounds = getLocalBounds();
-    auto toolBarArea = windowBounds.removeFromTop(getHeight()/4);
+    auto toolBarArea1 = windowBounds.removeFromTop(getHeight()/4);
+    auto toolBarArea2 = toolBarArea1.removeFromBottom(toolBarArea1.getHeight()/2);
     auto gridArea = windowBounds.removeFromRight(getWidth()*4/5);
     auto pianoArea = windowBounds;
     
     //Tool Bar Area
-    auto toolBarWidth = toolBarArea.getWidth();
-    auto toolBarHeight = toolBarArea.getHeight();
-    toolBarArea.removeFromLeft(toolBarWidth/4);
-    toolBarArea.removeFromRight(toolBarWidth/4);
+    auto toolBarWidth = toolBarArea1.getWidth();
+    auto toolBarHeight = toolBarArea1.getHeight();
+    //toolBarArea.removeFromLeft(toolBarWidth/4);
+    //toolBarArea.removeFromRight(toolBarWidth/4);
     
     //Add Items to ToolBar
     juce::FlexBox toolBarFlexBox;
@@ -97,10 +102,24 @@ void VocalSynthAudioProcessorEditor::resized()
     toolBarFlexBox.items.add(juce::FlexItem(removeBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
     toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
-    toolBarFlexBox.items.add(juce::FlexItem(convertButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    toolBarFlexBox.items.add(juce::FlexItem(resetButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     toolBarFlexBox.items.add(juce::FlexItem(volumeSlider).withMinWidth(toolBarWidth/6).withMinHeight(toolBarHeight/2));
-    toolBarFlexBox.items.add(juce::FlexItem(lyricEditor).withMinWidth(toolBarWidth / 6).withMinHeight(toolBarHeight / 4));
-    toolBarFlexBox.performLayout(toolBarArea);
+    toolBarFlexBox.performLayout(toolBarArea1);
+    
+    
+    juce::FlexBox toolBarFlexBox2;
+    toolBarFlexBox2.flexWrap = juce::FlexBox::Wrap::wrap;
+    toolBarFlexBox2.justifyContent = juce::FlexBox::JustifyContent::spaceAround;
+    toolBarFlexBox2.alignContent = juce::FlexBox::AlignContent::spaceAround;
+    toolBarFlexBox2.flexDirection = juce::FlexBox::Direction::row;
+    
+    toolBarFlexBox2.items.add(juce::FlexItem(lyricEditor).withMinWidth(toolBarWidth / 6).withMinHeight(toolBarHeight / 4));
+    toolBarFlexBox2.items.add(juce::FlexItem(convertButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    toolBarFlexBox2.items.add(juce::FlexItem(clearButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    
+    toolBarArea2.removeFromLeft(toolBarWidth/4);
+    toolBarArea2.removeFromRight(toolBarWidth/4);
+    toolBarFlexBox2.performLayout(toolBarArea2);
     
     //Piano & Grid Area
     keyboardComponent.setKeyWidth(pianoArea.getHeight()/7);
@@ -177,4 +196,18 @@ void VocalSynthAudioProcessorEditor::convertToPhoneme()
     auto phonemes = findPhoneme(lyricEditor.getText());
     soundGrid.setPhonemes(phonemes);
     lyricEditor.setText(phonemes.joinIntoString(""), juce::dontSendNotification);
+}
+
+void VocalSynthAudioProcessorEditor::clearPhonemes()
+{
+    soundGrid.clearPhonemes();
+    lyricEditor.setText("", juce::dontSendNotification);
+}
+
+void VocalSynthAudioProcessorEditor::reset()
+{
+    stop();
+    soundGrid.clearPhonemes();
+    soundGrid.clearSoundBlocks();
+    lyricEditor.setText("", juce::dontSendNotification);
 }
