@@ -24,6 +24,7 @@ public:
     void mouseUp (const juce::MouseEvent&) override;
     bool getSoundBlocks(int, int);
     int getNumberOfKeys();
+    juce::String getPhonemes(int, int);
     void addBar();
     void removeBar();
     void setViewPortDimensions(int, int);

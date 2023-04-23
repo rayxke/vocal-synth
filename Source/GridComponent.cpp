@@ -24,6 +24,7 @@ GridComponent::~GridComponent(){}
 
 
 void GridComponent::paint(juce::Graphics &g){
+    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     for (int i = 0; i < numKeys; i++)
     {
         for (int j = 0; j < numBeats; j++) {
@@ -129,12 +130,8 @@ void GridComponent::setPhonemes(juce::StringArray phonemeArray)
             if (soundBlocks[i][j])
             {
                 phonemes[i][j]
-                = phonemeArray[count];
+                = phonemeArray[count].removeCharacters("0123456789");
                 phonemeSet = true;
-            }
-            else
-            {
-                phonemes[i][j] = "";
             }
         }
         if (phonemeSet)
@@ -145,3 +142,10 @@ void GridComponent::setPhonemes(juce::StringArray phonemeArray)
     }
     repaint();
 }
+
+juce::String GridComponent::getPhonemes(int i, int j)
+{
+    return phonemes[i][j];
+}
+
+

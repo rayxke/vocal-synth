@@ -120,7 +120,12 @@ void VocalSynthAudioProcessorEditor::play()
 {
     for (int i = 0; i < soundGrid.getNumberOfKeys(); i++)
         for (int j = 0; j < totalNumBeats; j++)
-            audioProcessor.myBlocks[i][j] = soundGrid.getSoundBlocks(i, j);    
+        {
+            audioProcessor.myBlocks[i][j] = soundGrid.getSoundBlocks(i, j);
+            audioProcessor.myPhonemes[i][j] = soundGrid.getPhonemes(i, j);
+        }
+            
+    
 }
 
 
