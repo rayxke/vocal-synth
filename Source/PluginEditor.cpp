@@ -88,8 +88,6 @@ void VocalSynthAudioProcessorEditor::resized()
     //Tool Bar Area
     auto toolBarWidth = toolBarArea1.getWidth();
     auto toolBarHeight = toolBarArea1.getHeight();
-    //toolBarArea.removeFromLeft(toolBarWidth/4);
-    //toolBarArea.removeFromRight(toolBarWidth/4);
     
     //Add Items to ToolBar
     juce::FlexBox toolBarFlexBox;

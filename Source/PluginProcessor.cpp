@@ -15,9 +15,6 @@ VocalSynthAudioProcessor::VocalSynthAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
-                      //#if ! JucePlugin_IsSynth
-                      // .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                      //#endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        )
@@ -239,9 +236,6 @@ void VocalSynthAudioProcessor::initialiseSynth()
         synth.addVoice (new SineWaveVoice());
         synth.addVoice (new juce::SamplerVoice());
     }
-
-    //setUsingSineWaveSound();
-    //setUsingSampledSound();
 }
 
 void VocalSynthAudioProcessor::setUsingSineWaveSound()
