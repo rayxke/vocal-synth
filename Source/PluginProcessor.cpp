@@ -157,6 +157,8 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, numSamples);
 
+    if (isPlaying)
+    {
     //Change note after noteDuration
     if ((time + numSamples) >= noteDuration)
     {
@@ -187,6 +189,19 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     }
 
     time = (time + numSamples) % noteDuration;
+    }
+    
+    else
+    {
+        for (int i = 0; i < myBlocks.size(); i++)
+        {
+            auto offset = juce::jmax(0, juce::jmin((int)(noteDuration - time), numSamples - 1));
+            auto noteNum = i + 72;
+                midiMessages.addEvent(juce::MidiMessage::noteOff(1, noteNum), offset);
+        }
+        setUsingSineWaveSound();
+        keyboardState.processNextMidiBuffer (midiMessages, 0, numSamples, true);
+    }
 
     synth.renderNextBlock(buffer, midiMessages, 0, numSamples);
 

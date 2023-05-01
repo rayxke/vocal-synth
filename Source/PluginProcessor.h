@@ -71,6 +71,8 @@ public:
     int barCount = 0;
     int numBars = 1;
     int beatsPerBar = 4;
+    int numKeys = 12;
+    bool isPlaying = false;
     std::map<juce::String, int> phonemeMap = {{"AA", 1},{"AE", 2}, {"AH", 3},{"AO", 4},{"AW", 5}, {"AY", 6},
                                               {"B", 7},{"CH", 8}, {"D", 9},{"DH", 10},{"EH", 11}, {"ER", 12},
                                               {"EY", 13},{"F", 14}, {"G", 15},{"HH", 16},{"IH", 17}, {"IY", 18},
@@ -79,8 +81,8 @@ public:
                                               {"T", 31},{"TH", 32}, {"UH", 33},{"UW", 34},{"V", 35}, {"W", 36},
                                               {"Y", 37},{"Z", 38}, {"ZH", 39}};
     //TODO: Remove Magic numbers by using value tree logic
-    std::vector <std::vector<bool>> myBlocks= std::vector<std::vector<bool>>(12, std::vector<bool>(4, false));
-    std::vector <std::vector<juce::String>> myPhonemes= std::vector<std::vector<juce::String>>(12, std::vector<juce::String>(4));
+    std::vector <std::vector<bool>> myBlocks= std::vector<std::vector<bool>>(numKeys, std::vector<bool>(4, false));
+    std::vector <std::vector<juce::String>> myPhonemes= std::vector<std::vector<juce::String>>(numKeys, std::vector<juce::String>(4));
     float volume;
 private:
     //==============================================================================
