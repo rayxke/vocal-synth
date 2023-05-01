@@ -24,7 +24,6 @@ GridComponent::~GridComponent(){}
 
 
 void GridComponent::paint(juce::Graphics &g){
-    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     for (int i = 0; i < numKeys; i++)
     {
         for (int j = 0; j < numBeats; j++) {
