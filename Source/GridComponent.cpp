@@ -132,7 +132,8 @@ void GridComponent::clearPhonemes()
     {
         for (int i = 0; i < numKeys; i++)
         {
-                phonemes[i][j] = "";
+                if (!soundBlocks[i][j])
+                    phonemes[i][j] = "";
         }
     }
     repaint();
@@ -148,7 +149,7 @@ void GridComponent::setPhonemes(juce::StringArray phonemeArray)
     {
         for (int i = 0; i < numKeys; i++)
         {
-            if (soundBlocks[i][j])
+            if (soundBlocks[i][j] && (phonemes[i][j] == ""))
             {
                 phonemes[i][j]
                 = phonemeArray[count].removeCharacters("0123456789");
