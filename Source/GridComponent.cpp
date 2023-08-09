@@ -97,6 +97,18 @@ int GridComponent::getNumberOfKeys()
     return numKeys;
 }
 
+void GridComponent::incBar(int numBars)
+{
+    numBeats = numBars * 4;
+    for (auto i = 0; i < soundBlocks.size(); i++)
+    {
+        soundBlocks[i].resize(numBeats);
+        notes[i].resize(numBeats);
+        gridColors[i].resize(numBeats);
+        phonemes[i].resize(numBeats);
+    }
+}
+
 void GridComponent::addBar()
 {
     numBeats += 4;

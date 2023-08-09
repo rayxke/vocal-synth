@@ -28,10 +28,27 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     addAndMakeVisible(volumeSlider);
     volumeSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
     volumeSlider.setValue (volumeSlider.getMaximum());
+    int x = playButton.getX();
+    int y = playButton.getY();
+    int width = playButton.getWidth();
+    int height = playButton.getHeight();
+    juce::Path triangle;
+    triangle.addTriangle(x, y + height / 2, x - width, y, x - width, y + height);
+    playButton.setShape(triangle, true, true, true);
     addAndMakeVisible(playButton);
+    x = stopButton.getX();
+    y = stopButton.getY();
+    width = stopButton.getWidth();
+    height = stopButton.getHeight();
+    juce::Path rectangle;
+    rectangle.addRectangle(x, y, width, height);
+    stopButton.setShape(rectangle, true, true, true);
     addAndMakeVisible(stopButton);
-    addAndMakeVisible(addBarButton);
-    addAndMakeVisible(removeBarButton);
+    
+    //addAndMakeVisible(addBarButton);
+    //addAndMakeVisible(removeBarButton);
+    incBarButton.setRange(0.0, 10.0, 1.0);
+    addAndMakeVisible(incBarButton);
     addAndMakeVisible(convertButton);
     addAndMakeVisible(clearButton);
     addAndMakeVisible(resetButton);
@@ -54,6 +71,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     //Click Functions
     playButton.onClick = [this] {play();};
     stopButton.onClick = [this] {stop();};
+    incBarButton.onValueChange = [this] {incBar();};
     addBarButton.onClick = [this] {addBar();};
     removeBarButton.onClick = [this] {removeBar();};
     convertButton.onClick = [this] {convertToPhoneme(); };
@@ -96,10 +114,11 @@ void VocalSynthAudioProcessorEditor::resized()
     toolBarFlexBox.alignContent = juce::FlexBox::AlignContent::spaceAround;
     toolBarFlexBox.flexDirection = juce::FlexBox::Direction::row;
     
-    toolBarFlexBox.items.add(juce::FlexItem(addBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
-    toolBarFlexBox.items.add(juce::FlexItem(removeBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
-    toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
+    //toolBarFlexBox.items.add(juce::FlexItem(addBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    //toolBarFlexBox.items.add(juce::FlexItem(removeBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    toolBarFlexBox.items.add(juce::FlexItem(incBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
     toolBarFlexBox.items.add(juce::FlexItem(resetButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     toolBarFlexBox.items.add(juce::FlexItem(volumeSlider).withMinWidth(toolBarWidth/6).withMinHeight(toolBarHeight/2));
     toolBarFlexBox.performLayout(toolBarArea1);
@@ -157,6 +176,19 @@ void VocalSynthAudioProcessorEditor::stop()
 void VocalSynthAudioProcessorEditor::updateVolume()
 {
     audioProcessor.volume = (float) volumeSlider.getValue();
+}
+
+void VocalSynthAudioProcessorEditor::incBar()
+{
+    audioProcessor.numBars = (int) incBarButton.getValue();
+    totalNumBeats = audioProcessor.numBars * audioProcessor.beatsPerBar;
+    soundGrid.incBar(audioProcessor.numBars);
+    for (int i = 0; i < soundGrid.getNumberOfKeys(); i++)
+    {
+        audioProcessor.myBlocks[i].resize(totalNumBeats);
+        audioProcessor.myPhonemes[i].resize(totalNumBeats);
+    }
+    resized();
 }
 
 void VocalSynthAudioProcessorEditor::addBar()

@@ -26,6 +26,7 @@ public:
     void resized() override;
     void play();
     void stop();
+    void incBar();
     void addBar();
     void removeBar();
     void convertToPhoneme();
@@ -40,8 +41,9 @@ private:
     GridComponent soundGrid;
     juce::Viewport viewport;
     juce::Slider volumeSlider;
-    juce::TextButton playButton {"Play"};
-    juce::TextButton stopButton {"Stop"};
+    juce::ShapeButton playButton {"Play", juce::Colours::green, juce::Colours::red, juce::Colours::blue};
+    juce::ShapeButton stopButton {"Stop", juce::Colours::red, juce::Colours::green, juce::Colours::blue};
+    juce::Slider incBarButton {juce::Slider::IncDecButtons, juce::Slider::TextBoxBelow};
     juce::TextButton addBarButton{ "+" };
     juce::TextButton removeBarButton{ "-" };
     juce::TextButton convertButton{ "Convert" };
