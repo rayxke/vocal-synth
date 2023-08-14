@@ -69,7 +69,7 @@ public:
     float rate;
     int beatCount = 0;
     int barCount = 0;
-    int numBars = 1;
+    int numBars = 2;
     int beatsPerBar = 4;
     int numKeys = 12;
     bool isPlaying = false;

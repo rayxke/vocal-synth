@@ -40,7 +40,7 @@ public:
     juce::Point<float> lastMousePosition;
     int viewPortHeight;
     int viewPortWidth;
-    int numBeats = 4;
+    int numBeats = 8;
     int numKeys = 12;
     std::vector<std::vector<juce::String>> phonemes = std::vector<std::vector<juce::String>>(numKeys, std::vector<juce::String>(numBeats));
     std::vector<std::vector<juce::Rectangle<float>>> notes = std::vector<std::vector<juce::Rectangle<float>>>(numKeys, std::vector<juce::Rectangle<float>>(numBeats));
