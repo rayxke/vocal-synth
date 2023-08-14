@@ -41,9 +41,9 @@ private:
     GridComponent soundGrid;
     juce::Viewport viewport;
     juce::Slider volumeSlider;
-    juce::ShapeButton playButton {"Play", juce::Colours::green, juce::Colours::red, juce::Colours::blue};
-    juce::ShapeButton stopButton {"Stop", juce::Colours::red, juce::Colours::green, juce::Colours::blue};
-    juce::Slider incBarButton {juce::Slider::IncDecButtons, juce::Slider::TextBoxBelow};
+    juce::DrawableButton playButton {"Play", juce::DrawableButton::ButtonStyle::ImageOnButtonBackground};
+    juce::DrawableButton stopButton {"Stop", juce::DrawableButton::ButtonStyle::ImageOnButtonBackground};
+    juce::Slider incBarButton {juce::Slider::IncDecButtons, juce::Slider::NoTextBox};
     juce::TextButton addBarButton{ "+" };
     juce::TextButton removeBarButton{ "-" };
     juce::TextButton convertButton{ "Convert" };

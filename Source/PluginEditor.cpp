@@ -34,23 +34,32 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     int height = playButton.getHeight();
     juce::Path triangle;
     triangle.addTriangle(x, y + height / 2, x - width, y, x - width, y + height);
-    playButton.setShape(triangle, true, true, true);
+    juce::DrawablePath triImage;
+    triImage.setPath(triangle);
+    playButton.setImages(&triImage);
+    playButton.setConnectedEdges(juce::Button::ConnectedEdgeFlags::ConnectedOnLeft+
+                                 juce::Button::ConnectedEdgeFlags::ConnectedOnRight);
     addAndMakeVisible(playButton);
     x = stopButton.getX();
     y = stopButton.getY();
     width = stopButton.getWidth();
     height = stopButton.getHeight();
+    stopButton.setConnectedEdges(juce::Button::ConnectedEdgeFlags::ConnectedOnRight);
     juce::Path rectangle;
     rectangle.addRectangle(x, y, width, height);
-    stopButton.setShape(rectangle, true, true, true);
+    juce::DrawablePath sqrImage;
+    sqrImage.setPath(rectangle);
+    stopButton.setImages(&sqrImage);
     addAndMakeVisible(stopButton);
     
     //addAndMakeVisible(addBarButton);
     //addAndMakeVisible(removeBarButton);
-    incBarButton.setRange(0.0, 10.0, 1.0);
+    incBarButton.setRange(1.0, 10.0, 1.0);
     addAndMakeVisible(incBarButton);
     addAndMakeVisible(convertButton);
     addAndMakeVisible(clearButton);
+    
+    resetButton.setConnectedEdges(juce::Button::ConnectedEdgeFlags::ConnectedOnLeft);
     addAndMakeVisible(resetButton);
     
     //Lyric Editor Button
@@ -99,7 +108,9 @@ void VocalSynthAudioProcessorEditor::resized()
     //Set Bounding Areas
     auto windowBounds = getLocalBounds();
     auto toolBarArea1 = windowBounds.removeFromTop(getHeight()/4);
+    toolBarArea1.removeFromRight(8.0f);
     auto toolBarArea2 = toolBarArea1.removeFromBottom(toolBarArea1.getHeight()/2);
+    auto incButtonArea = toolBarArea2.removeFromRight(toolBarArea2.getWidth()/11).removeFromBottom(toolBarArea1.getHeight()/2);
     auto gridArea = windowBounds.removeFromRight(getWidth()*4/5);
     auto pianoArea = windowBounds;
     
@@ -110,25 +121,31 @@ void VocalSynthAudioProcessorEditor::resized()
     //Add Items to ToolBar
     juce::FlexBox toolBarFlexBox;
     toolBarFlexBox.flexWrap = juce::FlexBox::Wrap::wrap;
-    toolBarFlexBox.justifyContent = juce::FlexBox::JustifyContent::spaceAround;
-    toolBarFlexBox.alignContent = juce::FlexBox::AlignContent::spaceAround;
+    toolBarFlexBox.justifyContent = juce::FlexBox::JustifyContent::center;
+    toolBarFlexBox.alignContent = juce::FlexBox::AlignContent::center;
     toolBarFlexBox.flexDirection = juce::FlexBox::Direction::row;
+    //juce::OwnedArray<juce::DrawableButton> b;
+    //b.add(&playButton);
+    //b.add(&stopButton);
     
     //toolBarFlexBox.items.add(juce::FlexItem(addBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     //toolBarFlexBox.items.add(juce::FlexItem(removeBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
-    toolBarFlexBox.items.add(juce::FlexItem(incBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
-    toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
-    toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/8));
-    toolBarFlexBox.items.add(juce::FlexItem(resetButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
-    toolBarFlexBox.items.add(juce::FlexItem(volumeSlider).withMinWidth(toolBarWidth/6).withMinHeight(toolBarHeight/2));
+    //toolBarFlexBox.items.add(juce::FlexItem(incBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    //toolBarFlexBox.items.add(juce::FlexItem(incBarButton).withMinWidth(50.0f).withMinHeight(50.0f));
+    //toolBarFlexBox.items.add(juce::FlexItem(b).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 2));
+    toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/2));
+    toolBarFlexBox.items.add(juce::FlexItem(resetButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 2));
+    //toolBarFlexBox.items.add(juce::FlexItem(volumeSlider).withMinWidth(toolBarWidth/6).withMinHeight(toolBarHeight/2));
     toolBarFlexBox.performLayout(toolBarArea1);
     
     
     juce::FlexBox toolBarFlexBox2;
     toolBarFlexBox2.flexWrap = juce::FlexBox::Wrap::wrap;
-    toolBarFlexBox2.justifyContent = juce::FlexBox::JustifyContent::spaceAround;
-    toolBarFlexBox2.alignContent = juce::FlexBox::AlignContent::spaceAround;
+    toolBarFlexBox2.justifyContent = juce::FlexBox::JustifyContent::center;
+    toolBarFlexBox2.alignContent = juce::FlexBox::AlignContent::center;
     toolBarFlexBox2.flexDirection = juce::FlexBox::Direction::row;
+    
     
     toolBarFlexBox2.items.add(juce::FlexItem(lyricEditor).withMinWidth(toolBarWidth / 6).withMinHeight(toolBarHeight / 4));
     toolBarFlexBox2.items.add(juce::FlexItem(convertButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
@@ -136,10 +153,14 @@ void VocalSynthAudioProcessorEditor::resized()
     
     toolBarArea2.removeFromLeft(toolBarWidth/4);
     toolBarArea2.removeFromRight(toolBarWidth/4);
-    toolBarFlexBox2.performLayout(toolBarArea2);
+    //toolBarFlexBox2.performLayout(toolBarArea2);
+    
+    //auto incButtonArea = toolBarArea2.removeFromRight(50.0f).removeFromBottom(50.0f);
+    incBarButton.setBounds(incButtonArea);
     
     //Piano & Grid Area
     keyboardComponent.setKeyWidth(pianoArea.getHeight()/7);
+    pianoArea.removeFromBottom(8.0f);
     keyboardComponent.setBounds(pianoArea);
     //keyboardComponent.getKeyWidth();
     
