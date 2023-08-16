@@ -160,7 +160,7 @@ void VocalSynthAudioProcessorEditor::resized()
     
     //Piano & Grid Area
     keyboardComponent.setKeyWidth(pianoArea.getHeight()/7);
-    pianoArea.removeFromBottom(8.0f);
+    pianoArea.removeFromBottom(8.0f); // match piano height to viewport height
     keyboardComponent.setBounds(pianoArea);
     //keyboardComponent.getKeyWidth();
     

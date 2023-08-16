@@ -135,7 +135,7 @@ void GridComponent::removeBar()
 
 void GridComponent::setViewPortDimensions(int height, int width)
 {
-    viewPortHeight = height;
+    viewPortHeight = height -8.0f;
     viewPortWidth = width;
 }
 void GridComponent::clearPhonemes()
