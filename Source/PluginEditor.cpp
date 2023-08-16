@@ -55,6 +55,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     //addAndMakeVisible(addBarButton);
     //addAndMakeVisible(removeBarButton);
     incBarButton.setRange(1.0, 10.0, 1.0);
+    incBarButton.setValue(2.0);
     addAndMakeVisible(incBarButton);
     addAndMakeVisible(convertButton);
     addAndMakeVisible(clearButton);
