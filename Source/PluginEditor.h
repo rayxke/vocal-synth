@@ -15,7 +15,8 @@
 //==============================================================================
 /**
 */
-class VocalSynthAudioProcessorEditor  : public juce::AudioProcessorEditor
+class VocalSynthAudioProcessorEditor  : public juce::AudioProcessorEditor,
+                                        public juce::Value::Listener
 {
 public:
     VocalSynthAudioProcessorEditor (VocalSynthAudioProcessor&);
@@ -33,6 +34,7 @@ public:
     void clearPhonemes();
     void reset();
     void updateVolume();
+    void valueChanged(juce::Value&) override;
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -52,6 +54,7 @@ private:
     juce::MidiKeyboardComponent keyboardComponent;
     juce::Label lyricEditorLabel;
     juce::Label lyricEditor;
+    juce::Label numBarsLabel;
     double startTime;
     int totalNumBeats = 4;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VocalSynthAudioProcessorEditor)

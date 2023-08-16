@@ -21,6 +21,7 @@ VocalSynthAudioProcessor::VocalSynthAudioProcessor()
 #endif
 {
     initialiseSynth();
+    barCount.setValue(0);
 }
 
 VocalSynthAudioProcessor::~VocalSynthAudioProcessor()
@@ -160,7 +161,7 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     if ((time + numSamples) >= noteDuration)
     {
         auto offset = juce::jmax(0, juce::jmin((int)(noteDuration - time), numSamples - 1));
-        auto beatNum = 4 * barCount + beatCount;
+        auto beatNum = 4 * (int) barCount.getValue() + beatCount;
         for (int i = 0; i < myBlocks.size(); i++)
         {
             auto noteNum = i + 72;
@@ -178,8 +179,8 @@ void VocalSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
         beatCount++;
         if (((beatCount%4) == 0) && (beatCount > 0))
         {
-            barCount++;
-            barCount = barCount % numBars;
+            barCount.setValue((int)barCount.getValue() + 1);
+            barCount.setValue((int) barCount.getValue() % numBars);
         }
         beatCount = beatCount % 4;
         

@@ -51,6 +51,11 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
     sqrImage.setPath(rectangle);
     stopButton.setImages(&sqrImage);
     addAndMakeVisible(stopButton);
+    addAndMakeVisible(numBarsLabel);
+    auto mybar = (int) audioProcessor.barCount.getValue() + 1;
+    numBarsLabel.setText(juce::String(mybar), juce::dontSendNotification);
+    numBarsLabel.setColour(juce::Label::backgroundColourId, juce::Colours::darkblue);
+    //numBarsLabel.setEditable(true);
     
     //addAndMakeVisible(addBarButton);
     //addAndMakeVisible(removeBarButton);
@@ -91,6 +96,7 @@ VocalSynthAudioProcessorEditor::VocalSynthAudioProcessorEditor (VocalSynthAudioP
 
     //Set Volume
     audioProcessor.volume = (float) volumeSlider.getValue();
+    audioProcessor.barCount.addListener(this);
 }
 
 VocalSynthAudioProcessorEditor::~VocalSynthAudioProcessorEditor()
@@ -134,6 +140,7 @@ void VocalSynthAudioProcessorEditor::resized()
     //toolBarFlexBox.items.add(juce::FlexItem(incBarButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     //toolBarFlexBox.items.add(juce::FlexItem(incBarButton).withMinWidth(50.0f).withMinHeight(50.0f));
     //toolBarFlexBox.items.add(juce::FlexItem(b).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
+    toolBarFlexBox.items.add(juce::FlexItem(numBarsLabel).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 2));
     toolBarFlexBox.items.add(juce::FlexItem(stopButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 2));
     toolBarFlexBox.items.add(juce::FlexItem(playButton).withMinWidth(toolBarWidth/12).withMinHeight(toolBarHeight/2));
     toolBarFlexBox.items.add(juce::FlexItem(resetButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 2));
@@ -143,8 +150,8 @@ void VocalSynthAudioProcessorEditor::resized()
     
     juce::FlexBox toolBarFlexBox2;
     toolBarFlexBox2.flexWrap = juce::FlexBox::Wrap::wrap;
-    toolBarFlexBox2.justifyContent = juce::FlexBox::JustifyContent::center;
-    toolBarFlexBox2.alignContent = juce::FlexBox::AlignContent::center;
+    toolBarFlexBox2.justifyContent = juce::FlexBox::JustifyContent::spaceAround;
+    toolBarFlexBox2.alignContent = juce::FlexBox::AlignContent::flexStart;
     toolBarFlexBox2.flexDirection = juce::FlexBox::Direction::row;
     
     
@@ -153,8 +160,8 @@ void VocalSynthAudioProcessorEditor::resized()
     toolBarFlexBox2.items.add(juce::FlexItem(clearButton).withMinWidth(toolBarWidth / 12).withMinHeight(toolBarHeight / 8));
     
     toolBarArea2.removeFromLeft(toolBarWidth/4);
-    toolBarArea2.removeFromRight(toolBarWidth/4);
-    //toolBarFlexBox2.performLayout(toolBarArea2);
+    //toolBarArea2.removeFromRight(toolBarWidth/4);
+    toolBarFlexBox2.performLayout(toolBarArea2);
     
     //auto incButtonArea = toolBarArea2.removeFromRight(50.0f).removeFromBottom(50.0f);
     incBarButton.setBounds(incButtonArea);
@@ -261,4 +268,10 @@ void VocalSynthAudioProcessorEditor::reset()
     soundGrid.clearPhonemes();
     soundGrid.clearSoundBlocks();
     lyricEditor.setText("", juce::dontSendNotification);
+}
+
+void VocalSynthAudioProcessorEditor::valueChanged(juce::Value& value)
+{
+    auto displayBar = (int) value.getValue();
+    numBarsLabel.setText(juce::String(displayBar + 1), juce::dontSendNotification);
 }
