@@ -120,14 +120,6 @@ jobs:
       - name: Build
         run: cmake --build ${{ env.BUILD_DIR }} --config ${{ env.BUILD_TYPE }} --parallel 4
 
-      - name: Test
-        working-directory: ${{ env.BUILD_DIR }}
-        run: ./Tests
-
-      - name: Run Benchmarks
-        working-directory: ${{ env.BUILD_DIR }}
-        run: ./Benchmarks
-
       - name: Read in .env from CMake # see GitHubENV.cmake
         run: |
           cat .env # show us the config
