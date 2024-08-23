@@ -166,21 +166,21 @@ jobs:
           #SetFile -a C "${{ env.VST3_PATH }}"
           #SetFile -a C "${{ env.AU_PATH }}"
 
-      - name: Create DMG, Notarize and Staple (macOS)
-        if: ${{ matrix.name == 'macOS' }}
-        run: |
-          # workaround for https://github.com/LinusU/node-appdmg/issues/234
-          python3 -m pip install setuptools --break-system-packages
-          npm install -g appdmg
-          mkdir -p packaging/dmg
+      #- name: Create DMG, Notarize and Staple (macOS)
+      #  if: ${{ matrix.name == 'macOS' }}
+      #  run: |
+      #    # workaround for https://github.com/LinusU/node-appdmg/issues/234
+      #    python3 -m pip install setuptools --break-system-packages
+      #    npm install -g appdmg
+      #    mkdir -p packaging/dmg
 
-           Create directories for the dmg symlinks
-          sudo mkdir -m 755 -p /Library/Audio/Plug-Ins/Components && sudo mkdir -m 755 -p /Library/Audio/Plug-Ins/VST3
-          ln -s /Library/Audio/Plug-Ins/Components "packaging/dmg/Your Mac's Component folder"
-          ln -s /Library/Audio/Plug-Ins/VST3 "packaging/dmg/Your Mac's VST3 folder"
-          mv "${{ env.VST3_PATH }}" packaging/dmg
-          mv "${{ env.AU_PATH }}" packaging/dmg
-          mv "${{ env.STANDALONE_PATH }}" packaging/dmg
+      #     Create directories for the dmg symlinks
+      #    sudo mkdir -m 755 -p /Library/Audio/Plug-Ins/Components && sudo mkdir -m 755 -p /Library/Audio/Plug-Ins/VST3
+      #    ln -s /Library/Audio/Plug-Ins/Components "packaging/dmg/Your Mac's Component folder"
+      #    ln -s /Library/Audio/Plug-Ins/VST3 "packaging/dmg/Your Mac's VST3 folder"
+      #    mv "${{ env.VST3_PATH }}" packaging/dmg
+      #    mv "${{ env.AU_PATH }}" packaging/dmg
+      #    mv "${{ env.STANDALONE_PATH }}" packaging/dmg
 
           # Run appdmg to create the .dmg
           #cd packaging && appdmg dmg.json "${{ env.ARTIFACT_NAME}}.dmg"
@@ -270,4 +270,5 @@ jobs:
           files: |
             */*.exe
             */*.zip
-            */*.dmg
+            */*.app
+            #*/*.dmg
