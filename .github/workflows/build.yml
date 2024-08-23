@@ -243,7 +243,7 @@ jobs:
         if: ${{ matrix.name == 'macOS' }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.STANDALONE_PATH }}
+          name: ${{ env.PRODUCT_NAME }}.app
           path: ${{ env.STANDALONE_PATH }}
       #- name: Upload DMG (macOS)
       #  if: ${{ matrix.name == 'macOS' }}
