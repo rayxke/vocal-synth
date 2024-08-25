@@ -1,5 +1,5 @@
 # Vocal Synthesizer
-[![](https://github.com/rayxke/vocal-synth/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/rayxke/vocal-synth/actions)
+[![](https://github.com/rayxke/vocal-synth/actions/workflows/build.yml/badge.svg)](https://github.com/rayxke/vocal-synth/actions)
 
 ## Overview
 A basic Vocal Synthesizer built using JUCE. 
