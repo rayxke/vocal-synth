@@ -23,7 +23,7 @@ git clone https://github.com/rayxke/vocal-synth
 Change to project directory
 
 ```
-cd blocks
+cd vocal-synth
 ```
 
 Populate [JUCE](https://juce.com)
