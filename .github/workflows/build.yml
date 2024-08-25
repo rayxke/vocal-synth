@@ -192,6 +192,11 @@ jobs:
         if: ${{ matrix.name == 'Linux' }}
         working-directory: ${{ env.ARTIFACTS_PATH }}
         run: 7z a -tzip "${{ env.ARTIFACT_NAME }}.zip" "-xr!lib${{ env.PRODUCT_NAME }}_SharedCode.a" .
+        
+      - name: Zip (macOS)
+        if: ${{ matrix.name == 'macOS' }}
+        working-directory: ${{ env.ARTIFACTS_PATH }}
+        run: 7z a -tzip "${{ env.ARTIFACT_NAME }}.zip" "-xr!lib${{ env.PRODUCT_NAME }}_SharedCode.a" .
 
       - name: Generate Installer
         if: ${{ matrix.name == 'Windows' }}
@@ -239,12 +244,12 @@ jobs:
           name: ${{ env.ARTIFACT_NAME }}.zip
           path: "${{ env.ARTIFACTS_PATH }}/${{ env.ARTIFACT_NAME }}.zip"
 
-      - name: Upload App (macOS)
+      - name: Upload Zip (macOS)
         if: ${{ matrix.name == 'macOS' }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.PRODUCT_NAME }}.app
-          path: "${{ env.ARTIFACTS_PATH }}/Standalone/"
+          name: ${{ env.ARTIFACT_NAME }}.zip
+          path: "${{ env.ARTIFACTS_PATH }}/${{ env.ARTIFACT_NAME }}.zip"
       #- name: Upload DMG (macOS)
       #  if: ${{ matrix.name == 'macOS' }}
       #  uses: actions/upload-artifact@v4
