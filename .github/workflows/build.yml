@@ -195,7 +195,7 @@ jobs:
         
       - name: Zip (macOS)
         if: ${{ matrix.name == 'macOS' }}
-        working-directory: ${{ env.ARTIFACTS_PATH }}/Standalone
+        working-directory: ${{ env.ARTIFACTS_PATH }}
         run: 7z a -tzip "${{ env.ARTIFACT_NAME }}.zip" "-xr!lib${{ env.PRODUCT_NAME }}_SharedCode.a" .
 
       - name: Generate Installer
