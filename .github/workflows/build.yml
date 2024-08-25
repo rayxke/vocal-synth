@@ -197,45 +197,57 @@ jobs:
         if: ${{ matrix.name == 'macOS' }}
         working-directory: ${{ env.ARTIFACTS_PATH }}
         run: 7z a -tzip "${{ env.ARTIFACT_NAME }}.zip" "-xr!lib${{ env.PRODUCT_NAME }}_SharedCode.a" .
-
-      - name: Generate Installer
+      
+      - name: Zip (Windows)
         if: ${{ matrix.name == 'Windows' }}
-        run: |
-          iscc "packaging\installer.iss"
-          mv "packaging/Output/${{ env.ARTIFACT_NAME }}.exe" "${{ env.ARTIFACTS_PATH }}/"
+        working-directory: ${{ env.ARTIFACTS_PATH }}
+        run: 7z a -tzip "${{ env.ARTIFACT_NAME }}.zip" "-xr!lib${{ env.PRODUCT_NAME }}_SharedCode.a" .
 
-      - name: Codesign with Azure Trusted Signing
-        if: ${{ matrix.name == 'Windows' }}
-        uses: azure/trusted-signing-action@v0.3.18
-        with:
-          # The Azure Active Directory tenant (directory) ID.
-          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      #- name: Generate Installer
+      #  if: ${{ matrix.name == 'Windows' }}
+      #  run: |
+      #    iscc "packaging\installer.iss"
+      #    mv "packaging/Output/${{ env.ARTIFACT_NAME }}.exe" "${{ env.ARTIFACTS_PATH }}/"
 
-          # The client (application) ID of an App Registration in the tenant.
-          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+      #- name: Codesign with Azure Trusted Signing
+      #  if: ${{ matrix.name == 'Windows' }}
+      #  uses: azure/trusted-signing-action@v0.3.18
+      #  with:
+      #    # The Azure Active Directory tenant (directory) ID.
+      #    azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
-          # A client secret that was generated for the App Registration.
-          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+      #    # The client (application) ID of an App Registration in the tenant.
+      #    azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
 
-          # The Code Signing Account endpoint. The URI value must have a URI that aligns to the region your Code Signing Account and Certificate Profile you are specifying were created in during the setup of these resources.
-          endpoint: ${{ secrets.AZURE_ENDPOINT }}
+      #    # A client secret that was generated for the App Registration.
+      #    azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
 
-          # The Code Signing Account name.
-          trusted-signing-account-name: ${{ secrets.AZURE_CODE_SIGNING_NAME }}
+      #    # The Code Signing Account endpoint. The URI value must have a URI that aligns to the region your Code Signing Account and Certificate Profile you are specifying were created in during the setup of these resources.
+      #    endpoint: ${{ secrets.AZURE_ENDPOINT }}
 
-          # The Certificate Profile name.
-          certificate-profile-name: ${{ secrets.AZURE_CERT_PROFILE_NAME }}
+      #    # The Code Signing Account name.
+      #    trusted-signing-account-name: ${{ secrets.AZURE_CODE_SIGNING_NAME }}
 
-          # This signs all exes inside the folder
-          files-folder: ${{ env.ARTIFACTS_PATH }}
-          files-folder-filter: exe
+      #    # The Certificate Profile name.
+      #    certificate-profile-name: ${{ secrets.AZURE_CERT_PROFILE_NAME }}
 
-      - name: Upload Exe (Windows)
+      #    # This signs all exes inside the folder
+      #    files-folder: ${{ env.ARTIFACTS_PATH }}
+      #    files-folder-filter: exe
+
+      #- name: Upload Exe (Windows)
+      #  if: ${{ matrix.name == 'Windows' }}
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: ${{ env.ARTIFACT_NAME }}.exe
+      #    path: "${{ env.ARTIFACTS_PATH }}/${{ env.ARTIFACT_NAME }}.exe"
+          
+      - name: Upload Zip (Windows)
         if: ${{ matrix.name == 'Windows' }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.ARTIFACT_NAME }}.exe
-          path: "${{ env.ARTIFACTS_PATH }}/${{ env.ARTIFACT_NAME }}.exe"
+          name: ${{ env.ARTIFACT_NAME }}.zip
+          path: "${{ env.ARTIFACTS_PATH }}/${{ env.ARTIFACT_NAME }}.zip"
 
       - name: Upload Zip (Linux)
         if: ${{ matrix.name == 'Linux' }}
@@ -275,5 +287,4 @@ jobs:
           files: |
             */*.exe
             */*.zip
-            */*.app
-            #*/*.dmg
+            */*.dmg
